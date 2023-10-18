@@ -136,6 +136,8 @@
     <ClCompile Include="src\DLinkedListNode.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
     <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\Point.cpp" />
+    <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DDelegate.hpp" />
@@ -143,6 +145,9 @@
     <ClInclude Include="src\DLinkedList.hpp" />
     <ClInclude Include="src\DLinkedListNode.hpp" />
     <ClInclude Include="src\Map.hpp" />
+    <ClInclude Include="src\Tile.hpp" />
+    <ClInclude Include="src\Triggerable.hpp" />
+    <ClInclude Include="src\Updateable.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
