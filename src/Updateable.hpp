@@ -4,7 +4,7 @@
 __interface IUpdateable
 {
 public:
-	int Update();
+	virtual int Update() = 0;
 };
 
 #endif

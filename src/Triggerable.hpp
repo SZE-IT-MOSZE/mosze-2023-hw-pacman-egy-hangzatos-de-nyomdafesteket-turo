@@ -3,7 +3,8 @@
 
 __interface ITriggerable
 {
-	void Trigger();
+	virtual void Trigger() = 0;
+	virtual bool Condition() = 0;
 };
 
 #endif

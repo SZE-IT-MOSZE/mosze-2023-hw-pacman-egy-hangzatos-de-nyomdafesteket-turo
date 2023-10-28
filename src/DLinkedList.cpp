@@ -56,15 +56,15 @@ void DLinkedList<T>::SeekToIndex(unsigned int newIndex)
 			{
 				currentElement = firstElement;
 				currentIndex = 0;
-				for (int i = 0; i < newIndex; i++)
+				for (unsigned int i = 0; i < newIndex; i++)
 				{
 					StepForward();
 				}
 			}
 			else
 			{
-				int steps = currentIndex - newIndex;
-				for (int i = 0; i < steps; i++)
+				unsigned int steps = currentIndex - newIndex;
+				for (unsigned int i = 0; i < steps; i++)
 				{
 					StepBackward();
 				}
@@ -76,15 +76,15 @@ void DLinkedList<T>::SeekToIndex(unsigned int newIndex)
 			{
 				currentElement = lastElement;
 				currentIndex = count - 1;
-				for (int i = 0; i < count - 1 - newIndex; i++)
+				for (unsigned int i = 0; i < count - 1 - newIndex; i++)
 				{
 					StepBackward();
 				}
 			}
 			else
 			{
-				int steps = newIndex - currentIndex;
-				for (int i = 0; i < steps; i++)
+				unsigned int steps = newIndex - currentIndex;
+				for (unsigned int i = 0; i < steps; i++)
 				{
 					StepForward();
 				}

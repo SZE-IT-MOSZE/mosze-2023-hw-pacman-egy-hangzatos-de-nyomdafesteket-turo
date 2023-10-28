@@ -231,7 +231,7 @@ Map::~Map()
 
 }
 
-#ifdef DEBUG
+
 
 
 void Map::DisplayMap()
@@ -242,11 +242,11 @@ void Map::DisplayMap()
 		{
 			if (baseMap[i][j])
 			{
-				std::cout << '.';
+				std::cout << '1';
 			}
 			else
 			{
-				std::cout << '#';
+				std::cout << '0';
 			}
 
 		}
@@ -266,7 +266,7 @@ void Map::DisplayFullMap()
 	}
 }
 
-#endif // DEBUG
+
 
 
 

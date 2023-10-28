@@ -28,10 +28,10 @@ public:
 	Map();
 	~Map();
 
-#ifdef DEBUG
+
 	void DisplayMap();
 	void DisplayFullMap();
-#endif // DEBUG
+
 
 
 private:
