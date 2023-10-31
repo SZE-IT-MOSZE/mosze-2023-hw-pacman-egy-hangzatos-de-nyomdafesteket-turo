@@ -1,6 +1,9 @@
 #ifndef KEYREADER_H
 #define KEYREADER_H
 
+#include <Windows.h>
+#include <winuser.h>
+
 #define KEY_NUMBER 6
 
 #define VK_LEFT 0x25
@@ -154,15 +157,31 @@ public:
 	void operator=(const KeyInput& other) = delete;
 	KeyInput(const KeyInput& other) = delete;
 
-	static void Delete();
-	static KeyName* GetActiveKeys();
-	static int Update();
-	static KeyName* activeKeys;
+	// static void Delete(); // wat
 
+	/// <summary>
+	/// Get the active keys in the frame
+	/// </summary>
+	/// <returns>The pointer to the active keys</returns>
+	static KeyName* GetActiveKeys();
+
+	/// <summary>
+	/// Reads the keys that are currently held down
+	/// </summary>
+	/// <returns></returns>
+	static int Update();
+
+
+	/// <summary>
+	/// Access the pointer to this singleton object
+	/// </summary>
+	/// <returns>The pointer to this</returns>
 	static KeyInput* GetInstance();
+
 	static KeyInput* keyreaderPtr;
 	~KeyInput();
 private:
+	static KeyName* activeKeys;
 	KeyInput();
 
 };

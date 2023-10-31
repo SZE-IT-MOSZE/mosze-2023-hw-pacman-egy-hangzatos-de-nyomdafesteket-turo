@@ -4,10 +4,6 @@
 #include "Renderer.hpp"
 
 
-Renderer* Renderer::rendererPtr = nullptr;
-Engine* Renderer::engine = nullptr;
-
-
 int Renderer::Display(int roomSpec)
 {
 	return 0;

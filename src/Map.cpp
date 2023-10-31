@@ -85,11 +85,11 @@ void Map::GenerateRoom(int x, int y)
 		{
 			if (i == x * ROOM_HEIGHT || j == y * ROOM_WIDTH || i == x * ROOM_HEIGHT + ROOM_HEIGHT - 1 || j == y * ROOM_WIDTH + ROOM_WIDTH - 1)
 			{
-				tiles[i][j] = new Tile(Tile::TileType::Wall); // The edge of the matrix
+				fullMap[i][j] = new Tile(Tile::TileType::Wall); // The edge of the matrix
 			}
 			else
 			{
-				tiles[i][j] = new Tile(Tile::TileType::Floor); // The "inside" of the matrix
+				fullMap[i][j] = new Tile(Tile::TileType::Floor); // The "inside" of the matrix
 			}
 		}
 	}
@@ -101,7 +101,7 @@ void Map::GenerateRoom(int x, int y)
 		{
 			// index:
 			//	 [TOP of the room][middle of the room - offset of half door width + i]
-			tiles[x * ROOM_HEIGHT][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
 		}
 	}
 	// DOWN
@@ -111,7 +111,7 @@ void Map::GenerateRoom(int x, int y)
 		{
 			// index:
 			//	 [BOTTOM of the room][middle of the room - offset of half door width + i]
-			tiles[x * ROOM_HEIGHT + ROOM_HEIGHT - 1][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT - 1][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
 		}
 	}
 	// LEFT
@@ -121,7 +121,7 @@ void Map::GenerateRoom(int x, int y)
 		{
 			// index:
 			//	 [BOTTOM of the room][middle of the room - offset of half door width + i]
-			tiles[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH]->SetTileType(Tile::TileType::Floor);
 		}
 	}
 	// RIGHT
@@ -131,7 +131,7 @@ void Map::GenerateRoom(int x, int y)
 		{
 			// index:
 			//	 [BOTTOM of the room][middle of the room - offset of half door width + i]
-			tiles[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH + ROOM_WIDTH - 1]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH + ROOM_WIDTH - 1]->SetTileType(Tile::TileType::Floor);
 		}
 	}
 }
@@ -142,7 +142,7 @@ void Map::GenerateWall(int x, int y)
 	{
 		for (int j = y * ROOM_WIDTH; j < y * ROOM_WIDTH + ROOM_WIDTH; j++)
 		{
-			tiles[i][j] = new Tile(Tile::TileType::Wall);
+			fullMap[i][j] = new Tile(Tile::TileType::Wall);
 		}
 	}
 }
@@ -150,13 +150,13 @@ void Map::GenerateWall(int x, int y)
 
 void Map::GenerateFullMap()
 {
-	tiles = new Tile * *[ROOM_HEIGHT * height];
+	fullMap = new Tile * *[ROOM_HEIGHT * height];
+	pathfindHelper = new bool* [ROOM_HEIGHT * height];
 	for (int i = 0; i < ROOM_HEIGHT * height; i++)
 	{
-		tiles[i] = new Tile * [ROOM_WIDTH * width];
+		fullMap[i] = new Tile * [ROOM_WIDTH * width];
+		pathfindHelper[i] = new bool[ROOM_HEIGHT * width];
 	}
-
-
 
 	for (int i = 0; i < height; i++)
 	{
@@ -165,51 +165,37 @@ void Map::GenerateFullMap()
 			// GenerateWall(i, j);
 			if (!baseMap[i][j])
 			{
-#ifdef DEBUG
+
 				std::cout << "Wall ";
-#endif
+
 				GenerateWall(i, j); // The edge of the matrix
 			}
 			else
 			{
-#ifdef DEBUG
+
 				std::cout << "Room ";
-#endif
+
 				GenerateRoom(i, j); // The "inside" of the matrix
 			}
 		}
 		std::cout << std::endl;
 	}
 
-	//	for (int i = 0; i < ROOM_HEIGHT * height; i++)
-	//	{
-	//		for (int j = i * ROOM_HEIGHT; j < i * ROOM_HEIGHT + ROOM_HEIGHT; j++)
-	//		{
-	//#ifdef DEBUG
-	//			std::cout << j << std::endl;
-	//#endif
-	//			tiles[j] = new Tile * [ROOM_WIDTH * (width)];
-	//		}
-	//
-	//		for (int j = i * ROOM_HEIGHT; j < i * ROOM_HEIGHT + ROOM_HEIGHT; j++)
-	//		{
-	//
-	//			if (i * j == 0 || i == height - 1 || j == width - 1)
-	//			{
-	//				GenerateWall(i * ROOM_HEIGHT, j * ROOM_WIDTH); // The edge of the matrix
-	//			}
-	//			else
-	//			{
-	//				GenerateRoom(i * ROOM_HEIGHT, j * ROOM_WIDTH); // The "inside" of the matrix
-	//			}
-	//		}
-	//	}
+	for (int i = 0; i < height * ROOM_HEIGHT; i++)
+	{
+		for (int j = 0; j < width * ROOM_WIDTH; j++)
+		{
+			pathfindHelper[i][j] = fullMap[i][j]->Passable();
+		}
+	}
+	// Yes, I could make this more efficient, but this way, the code is more simpler
+	// Plus, this is loading time
 }
 
 Map::Map()
 {
 	baseMap = nullptr;
-	tiles = nullptr;
+	fullMap = nullptr;
 }
 
 Map::~Map()
@@ -223,11 +209,11 @@ Map::~Map()
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
-			delete tiles[i][j];
+			delete fullMap[i][j];
 		}
-		delete[] tiles[i];
+		delete[] fullMap[i];
 	}
-	delete[] tiles;
+	delete[] fullMap;
 
 }
 
@@ -260,10 +246,15 @@ void Map::DisplayFullMap()
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
-			std::cout << tiles[i][j]->GetIcon();
+			std::cout << fullMap[i][j]->GetIcon();
 		}
 		std::cout << std::endl;
 	}
+}
+
+DLinkedList<Point>* Map::Pathfind(Point begin, Point target)
+{
+	return BStar(pathfindHelper, height * ROOM_HEIGHT, width * ROOM_WIDTH, begin, target);
 }
 
 

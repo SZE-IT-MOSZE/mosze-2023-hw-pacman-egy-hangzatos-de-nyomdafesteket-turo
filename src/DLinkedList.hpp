@@ -90,18 +90,20 @@ public:
 	bool PushLast(T data);
 
 	/// <summary>
-	/// Removes the element at the specified index
+	/// Removes the element at the specified index and moves items forward
 	/// </summary>
 	/// <param name="index">The index of the element</param>
-	void RemoveAt(int index);
+	/// <param name="deleteItem">Whether to delete the stored value or not</param>
+	void RemoveAt(int index, bool deleteItem = false);
 
 	/// <summary>
 	/// Removes current element and moves items forward
 	/// </summary>	
-	void RemoveCurrent();
+	/// <param name="deleteItem">Whether to delete the stored value or not</param>
+	void RemoveCurrent(bool deleteItem = false);
 
 	/// <summary>
-	/// Swaps two elements' stored data
+	/// Swaps two elements
 	/// </summary>
 	/// <param name="leftIndex">The first element of swap</param>
 	/// <param name="rightIndex">The second element of swap</param>
@@ -110,8 +112,68 @@ public:
 	/// <summary>
 	/// Empties the list
 	/// </summary>
-	/// <param name="deleteItem">Whejter to delete the stored value or not</param>
+	/// <param name="deleteItem">Whether to delete the stored value or not</param>
 	void Empty(bool deleteItem = false);
+
+	/// <summary>
+	/// Finds the specified element in the list
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <returns>The index of the searched value. -1 if not found</returns>
+	int IndexOf(T item);
+
+	/// <summary>
+	/// Finds the specified element in the list, skipping N previous matches
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <param name="skip">How many matches should be skipped</param>
+	/// <returns>The index of the searched value. -1 if not found</returns>
+	int NthIndexOf(T item, int skip);
+
+	/// <summary>
+	/// Finds the specified element from the back of the list
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <returns>The index of the searched value. -1 if not found</returns>
+	int LastIndexOf(T item);
+
+	/// <summary>
+	/// Finds the specified element from the back of the list, skipping N previous matches
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <param name="skip">How many matches should be skipped</param>
+	/// <returns>The index of the searched value. -1 if not found</returns>
+	int LastNthIndexOf(T item, int skip);
+
+	/// <summary>
+	/// Seeks to the specified element
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <returns>If the element was found</returns>
+	bool SeekToElement(T item);
+
+	/// <summary>
+	/// Seeks to the specified element, skipping N previous matches
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <param name="skip">How many matches should be skipped</param>
+	/// <returns>If the element was found</returns>
+	bool SeekToNthElement(T item, int skip);
+
+	/// <summary>
+	/// Seeks to the specified element from the back of the list, skipping N previous matches
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <returns>If the element was found</returns>
+	bool SeekToLastElement(T item);
+
+	/// <summary>
+	/// Seeks to the specified element from the back of the list, skipping N previous matches
+	/// </summary>
+	/// <param name="item">Value to look for</param>
+	/// <param name="skip">How many matches should be skipped</param>
+	/// <returns>If the element was found</returns>
+	bool SeekToLastNthElement(T item, int skip);
 
 
 
@@ -127,5 +189,5 @@ private:
 	bool FirstPush(T data);
 
 };
-
+// TODO: Testing
 #endif

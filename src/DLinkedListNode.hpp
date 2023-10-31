@@ -4,7 +4,7 @@
 /// <summary>
 /// The elements of which the DLinkedList is made up
 /// </summary>
-/// <typeparam name="T">Any</typeparam>
+/// <typeparam name="T">Any non pointer and non array type</typeparam>
 template <class T>
 class DLinkedListNode
 {
@@ -76,6 +76,11 @@ private:
 
 };
 
+/// <summary>
+/// The elements of which the DLinkedList is made up
+/// </summary>
+/// <typeparam name="T">Array type</typeparam>
+/// <typeparam name="N">The length of the array</typeparam>
 template<class T, int N>
 class DLinkedListNode<T[N]>
 {

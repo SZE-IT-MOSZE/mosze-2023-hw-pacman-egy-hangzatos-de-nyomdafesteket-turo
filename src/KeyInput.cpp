@@ -2,8 +2,6 @@
 #define KEYREADER
 
 #include "KeyInput.hpp"
-#include <Windows.h>
-#include <winuser.h>
 
 
 KeyName* KeyInput::GetActiveKeys()
@@ -108,9 +106,10 @@ KeyInput::KeyInput()
 	activeKeys = new KeyName[KEY_NUMBER];
 }
 
-void KeyInput::Delete()
-{
-	delete[] activeKeys;
-}
+//void KeyInput::Delete()
+//{
+//	delete[] activeKeys;
+//}
+// wat
 
 #endif

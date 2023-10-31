@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bstar.cpp" />
+    <ClCompile Include="src\Clock.cpp" />
     <ClCompile Include="src\DDelegate.cpp" />
     <ClCompile Include="src\DDelegateAction.cpp" />
     <ClCompile Include="src\DLinkedList.cpp" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bstar.hpp" />
+    <ClInclude Include="src\Clock.hpp" />
     <ClInclude Include="src\DDelegate.hpp" />
     <ClInclude Include="src\DDelegateAction.hpp" />
     <ClInclude Include="src\DLinkedList.hpp" />

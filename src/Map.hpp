@@ -3,6 +3,7 @@
 
 
 #include "Tile.hpp"
+#include "Engine.hpp"
 
 #define CLUSTER_SIZE 5
 #define ROOM_WIDTH 10
@@ -32,14 +33,67 @@ public:
 	void DisplayMap();
 	void DisplayFullMap();
 
+	/// <summary>
+	/// Pathfinds in the map bewteen begin and target. Should be used for in-room travel
+	/// </summary>
+	/// <param name="begin">Wehere the pathfinding should start from</param>
+	/// <param name="target">Where the pathfinding should end</param>
+	/// <returns>A linked list of points of the route</returns>
+	DLinkedList<Point>* Pathfind(Point begin, Point target);
+
+	/// <summary>
+	/// Pathfinds in the map bewteen begin and target asynchronously. Should be used for in-room travel
+	/// </summary>
+	/// <param name="begin">Wehere the pathfinding should start from</param>
+	/// <param name="target">Where the pathfinding should end</param>
+	/// <returns>A linked list of points of the route</returns>
+	DLinkedList<Point>* PathfindAsync(Point begin, Point target);
+
+	/// <summary>
+	/// Pathfinds in the logical map bewteen begin and target. Should be used for cross-room travel
+	/// </summary>
+	/// <param name="begin">Wehere the pathfinding should start from</param>
+	/// <param name="target">Where the pathfinding should end</param>
+	/// <returns>A linked list of points of the route</returns>
+	DLinkedList<Point>* PathfindInLogicMap(Point begin, Point target);
+
+	/// <summary>
+	/// Pathfinds in the logical map bewteen begin and target asynchronously. Should be used for cross-room travel
+	/// </summary>
+	/// <param name="begin">Wehere the pathfinding should start from</param>
+	/// <param name="target">Where the pathfinding should end</param>
+	/// <returns>A linked list of points of the route</returns>
+	DLinkedList<Point>* PathfindInLogicMapAsync(Point begin, Point target);
+
 
 
 private:
 	bool** baseMap;
 	int width, height;
-	Tile*** tiles;
+
+	bool** pathfindHelper;
+	Tile*** fullMap;
+	int fullWidth, fullHeight;
+
+	/// <summary>
+	/// Generates a cluster in the baseMap at a specified coordinate
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
 	void GenerateCluster(int x, int y);
+
+	/// <summary>
+	/// Expands a walkable tile of the baseMap to the fullMap
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
 	void GenerateRoom(int x, int y);
+
+	/// <summary>
+	/// Expands a non-walkable tile of the baseMap to the fullMap
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
 	void GenerateWall(int x, int y);
 };
 

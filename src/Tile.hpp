@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "DDelegate.hpp"
+#include "Engine.hpp"
 
 class Tile
 {

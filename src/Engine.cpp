@@ -15,13 +15,29 @@ void Engine::PrepareGame(int mapWidth, int mapHeight, int seed)
 {
 	map->GenerateBaseMap(mapWidth, mapHeight, seed);
 	map->GenerateFullMap();
+	// TODO: Generate objects, place player and exit
 }
 
-void Engine::MainMenu()
+void Engine::DestroyObject(GameObject* target)
+{
+	// TODO: DLinkedList IndexOf
+	int index = updateList->IndexOf(target);
+	// Move this after the game objects were updated
+	//updateList->RemoveAt(index, true);
+	//updateDelay->RemoveAt(index, true);
+	deleteList->PushLast(target);
+}
+
+Map* Engine::GetMap()
+{
+	return map;
+}
+
+int Engine::MainMenu()
 {
 
 
-
+	return 0;
 }
 
 Engine::~Engine()
@@ -29,6 +45,7 @@ Engine::~Engine()
 	triggerList->Empty(true);
 	updateList->Empty(true);
 	gameObjects->Empty(true);
+	deleteList->Empty(true);
 
 	delete triggerList;
 	delete updateList;
@@ -37,6 +54,7 @@ Engine::~Engine()
 	delete map;
 	delete keyReader;
 	delete rendererPtr;
+	delete deleteList;
 }
 
 void Engine::Init()
@@ -49,6 +67,7 @@ void Engine::Init()
 	gameObjects = new DLinkedList<GameObject*>();
 	rendererPtr = Renderer::GetInstance();
 	Renderer::engine = this;
+	deleteList = new DLinkedList<GameObject*>();
 }
 
 Engine* Engine::GetInstance()

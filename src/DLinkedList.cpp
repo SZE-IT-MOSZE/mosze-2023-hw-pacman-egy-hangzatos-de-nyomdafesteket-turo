@@ -248,14 +248,15 @@ bool DLinkedList<T>::PushLast(T data)
 
 
 template<class T>
-void DLinkedList<T>::RemoveAt(int index)
+void DLinkedList<T>::RemoveAt(int index, bool deleteItem)
 {
 	int revert = currentIndex;
-	if (index < revert)
-	{
-		revert--;
-	}
 	SeekToIndex(index);
+	RemoveCurrent(deleteItem);
+	SeekToIndex(revert);
+	return;
+
+#if false
 	if (index == 0) // first element
 	{
 		currentElement = currentElement->nextElement;
@@ -280,44 +281,52 @@ void DLinkedList<T>::RemoveAt(int index)
 	}
 	count--;
 	SeekToIndex(revert);
+#endif // OBSOLETE
 }
 
 
 template<class T>
-void DLinkedList<T>::RemoveCurrent()
+void DLinkedList<T>::RemoveCurrent(bool deleteItem)
 {
-	if (count == 1)
+	if (count == 1) // One element
 	{
-		delete(currentElement);
-		firstElement = nullptr;
-		lastElement = nullptr;
-		currentElement = nullptr;
-		currentIndex = 0;
-		count = 0;
+		Empty(deleteItem);
 	}
-	else if (currentIndex == 0)
+	else if (currentIndex == 0) // First element
 	{
 		currentElement = currentElement->nextElement;
+		if (deleteItem)
+		{
+			firstElement->Delete();
+		}
 		delete firstElement;
 		firstElement = currentElement;
 		currentElement->previousElement = nullptr;
 		count--;
 	}
-	else if (currentIndex == count - 1)
+	else if (currentIndex == count - 1) // Last element
 	{
 		currentElement = currentElement->previousElement;
+		if (deleteItem)
+		{
+			lastElement->Delete();
+		}
 		delete lastElement;
 		lastElement = currentElement;
 		currentElement->nextElement = nullptr;
 		count--;
 		currentIndex--;
 	}
-	else
+	else // Anywhere in between
 	{
 		DLinkedListNode<T>* tmp = currentElement;
 		currentElement->previousElement->nextElement = currentElement->nextElement;
 		currentElement->nextElement->previousElement = currentElement->previousElement;
 		currentElement = currentElement->nextElement;
+		if (deleteItem)
+		{
+			tmp->Delete();
+		}
 		delete tmp;
 		count--;
 	}
@@ -328,12 +337,26 @@ void DLinkedList<T>::Swap(int leftIndex, int rightIndex)
 {
 	int revert = currentIndex;
 	SeekToIndex(leftIndex);
-	T left = currentElement->data;
+	DLinkedListNode<T>* left = currentElement;
 	SeekToIndex(rightIndex);
-	T right = currentElement->data;
-	currentElement->data = left;
-	SeekToIndex(leftIndex);
-	currentElement->data = right;
+	DLinkedListNode<T>* right = currentElement;
+	DLinkedListNode<T>* tmp;
+
+	// Rewire the list
+	left->previousElement->nextElement = right;
+	left->nextElement->previousElement = right;
+	right->previousElement->nextElement = left;
+	right->nextElement->previousElement = left;
+
+	// Rewire the elements
+	tmp = right->previousElement;
+	right->previousElement = left->previousElement;
+	left->previousElement = tmp;
+
+	tmp = right->nextElement;
+	right->nextElement = left->nextElement;
+	left->nextElement = tmp;
+
 	SeekToIndex(revert);
 }
 
