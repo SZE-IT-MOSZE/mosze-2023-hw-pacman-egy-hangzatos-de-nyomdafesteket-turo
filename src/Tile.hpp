@@ -9,12 +9,6 @@ class Tile
 
 public:
 
-	// TODO: Change void to Updateable::int
-	DDelegate<void, Tile*>* OnEnter;
-	DDelegate<void, Tile*>* OnLeave;
-	DDelegate<void, Tile*>* trigger;
-
-
 	enum TileType { Other = 0, Wall = 1, Floor = 2};
 
 	Tile();
