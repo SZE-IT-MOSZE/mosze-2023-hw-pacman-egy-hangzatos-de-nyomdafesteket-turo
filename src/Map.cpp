@@ -162,7 +162,7 @@ void Map::GenerateFullMap()
 	for (int i = 0; i < ROOM_HEIGHT * height; i++)
 	{
 		fullMap[i] = new Tile * [ROOM_WIDTH * width];
-		pathfindHelper[i] = new bool[ROOM_HEIGHT * width];
+		pathfindHelper[i] = new bool[ROOM_WIDTH * width];
 	}
 
 	for (int i = 0; i < height; i++)
@@ -184,7 +184,7 @@ void Map::GenerateFullMap()
 		}
 		std::cout << std::endl;
 	}
-	
+
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
@@ -199,6 +199,7 @@ Map::Map()
 {
 	baseMap = nullptr;
 	fullMap = nullptr;
+	pathfindHelper = nullptr;
 }
 
 Map::~Map()
@@ -210,21 +211,17 @@ Map::~Map()
 	}
 	delete[] pathfindHelper;
 	delete[] baseMap;
+
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
-
 			delete fullMap[i][j];
 		}
-
 		delete[] fullMap[i];
 	}
-
 	delete[] fullMap;
 }
-
-
 
 
 void Map::DisplayMap()
