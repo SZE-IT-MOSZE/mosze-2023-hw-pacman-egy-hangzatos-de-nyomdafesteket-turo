@@ -79,81 +79,80 @@
 #define VK_SPACEBAR 0x20
 
 
-enum KeyName {
-	Undef = 0,
-	Backspace = VK_BACKSPACE,
-	Enter = VK_ENTER,
-	Esc = VK_ESCAPE,
-	Spacebar = VK_SPACEBAR,
-	LeftArrow = VK_LEFT,
-	UpArrow = VK_UP,
-	RightArrow = VK_RIGHT,
-	DownArrow = VK_DOWN,
-	Number0 = VK_0,
-	Number1 = VK_1,
-	Number2 = VK_2,
-	Number3 = VK_3,
-	Number4 = VK_4,
-	Number5 = VK_5,
-	Number6 = VK_6,
-	Number7 = VK_7,
-	Number8 = VK_8,
-	Number9 = VK_9,
-	LetterA = VK_A,
-	LetterB = VK_B,
-	LetterC = VK_C,
-	LetterD = VK_D,
-	LetterE = VK_E,
-	LetterF = VK_F,
-	LetterG = VK_G,
-	LetterH = VK_H,
-	LetterI = VK_I,
-	LetterJ = VK_J,
-	LetterK = VK_K,
-	LetterL = VK_L,
-	LetterM = VK_M,
-	LetterN = VK_N,
-	LetterO = VK_O,
-	LetterP = VK_P,
-	LetterQ = VK_Q,
-	LetterR = VK_R,
-	LetterS = VK_S,
-	LetterT = VK_T,
-	LetterU = VK_U,
-	LetterV = VK_V,
-	LetterW = VK_W,
-	LetterX = VK_X,
-	LetterY = VK_Y,
-	LetterZ = VK_Z,
-	NumpadNumber0 = VK_NUMPAD0,
-	NumpadNumber1 = VK_NUMPAD1,
-	NumpadNumber2 = VK_NUMPAD2,
-	NumpadNumber3 = VK_NUMPAD3,
-	NumpadNumber4 = VK_NUMPAD4,
-	NumpadNumber5 = VK_NUMPAD5,
-	NumpadNumber6 = VK_NUMPAD6,
-	NumpadNumber7 = VK_NUMPAD7,
-	NumpadNumber8 = VK_NUMPAD8,
-	NumpadNumber9 = VK_NUMPAD9,
-	F1 = VK_F1,
-	F2 = VK_F2,
-	F3 = VK_F3,
-	F4 = VK_F4,
-	F5 = VK_F5,
-	F6 = VK_F6,
-	F7 = VK_F7,
-	F8 = VK_F8,
-	F9 = VK_F9,
-	F10 = VK_F10,
-	F11 = VK_F11,
-	F12 = VK_F12
-
-};
-
 
 class KeyInput
 {
 public:
+	static enum KeyName {
+		Undef = 0,
+		Backspace = VK_BACKSPACE,
+		Enter = VK_ENTER,
+		Esc = VK_ESCAPE,
+		Spacebar = VK_SPACEBAR,
+		LeftArrow = VK_LEFT,
+		UpArrow = VK_UP,
+		RightArrow = VK_RIGHT,
+		DownArrow = VK_DOWN,
+		Number0 = VK_0,
+		Number1 = VK_1,
+		Number2 = VK_2,
+		Number3 = VK_3,
+		Number4 = VK_4,
+		Number5 = VK_5,
+		Number6 = VK_6,
+		Number7 = VK_7,
+		Number8 = VK_8,
+		Number9 = VK_9,
+		LetterA = VK_A,
+		LetterB = VK_B,
+		LetterC = VK_C,
+		LetterD = VK_D,
+		LetterE = VK_E,
+		LetterF = VK_F,
+		LetterG = VK_G,
+		LetterH = VK_H,
+		LetterI = VK_I,
+		LetterJ = VK_J,
+		LetterK = VK_K,
+		LetterL = VK_L,
+		LetterM = VK_M,
+		LetterN = VK_N,
+		LetterO = VK_O,
+		LetterP = VK_P,
+		LetterQ = VK_Q,
+		LetterR = VK_R,
+		LetterS = VK_S,
+		LetterT = VK_T,
+		LetterU = VK_U,
+		LetterV = VK_V,
+		LetterW = VK_W,
+		LetterX = VK_X,
+		LetterY = VK_Y,
+		LetterZ = VK_Z,
+		NumpadNumber0 = VK_NUMPAD0,
+		NumpadNumber1 = VK_NUMPAD1,
+		NumpadNumber2 = VK_NUMPAD2,
+		NumpadNumber3 = VK_NUMPAD3,
+		NumpadNumber4 = VK_NUMPAD4,
+		NumpadNumber5 = VK_NUMPAD5,
+		NumpadNumber6 = VK_NUMPAD6,
+		NumpadNumber7 = VK_NUMPAD7,
+		NumpadNumber8 = VK_NUMPAD8,
+		NumpadNumber9 = VK_NUMPAD9,
+		F1 = VK_F1,
+		F2 = VK_F2,
+		F3 = VK_F3,
+		F4 = VK_F4,
+		F5 = VK_F5,
+		F6 = VK_F6,
+		F7 = VK_F7,
+		F8 = VK_F8,
+		F9 = VK_F9,
+		F10 = VK_F10,
+		F11 = VK_F11,
+		F12 = VK_F12
+
+	};
 	void operator=(const KeyInput& other) = delete;
 	KeyInput(const KeyInput& other) = delete;
 
@@ -178,17 +177,15 @@ public:
 	/// <returns>The pointer to this</returns>
 	static KeyInput* GetInstance();
 
-	static KeyInput* keyreaderPtr;
 	~KeyInput();
 private:
-	static KeyName* activeKeys;
+	static KeyName* activeKeys; // activeKeys[] won't work, can't make constexpr for class member array
+	static KeyInput* keyreaderPtr;
 	KeyInput();
 
 };
 
 KeyInput* KeyInput::keyreaderPtr = nullptr;
-KeyName* KeyInput::activeKeys = nullptr;
-
-
+KeyInput::KeyName* KeyInput::activeKeys = nullptr;
 
 #endif

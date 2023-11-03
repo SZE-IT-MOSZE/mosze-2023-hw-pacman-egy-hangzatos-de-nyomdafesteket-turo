@@ -81,8 +81,10 @@ void Map::GenerateRoom(int x, int y)
 {
 	for (int i = x * ROOM_HEIGHT; i < x * ROOM_HEIGHT + ROOM_HEIGHT; i++)
 	{
+		// std::cout << i << ": ";
 		for (int j = y * ROOM_WIDTH; j < y * ROOM_WIDTH + ROOM_WIDTH; j++)
 		{
+			// std::cout << j << " ";
 			if (i == x * ROOM_HEIGHT || j == y * ROOM_WIDTH || i == x * ROOM_HEIGHT + ROOM_HEIGHT - 1 || j == y * ROOM_WIDTH + ROOM_WIDTH - 1)
 			{
 				fullMap[i][j] = new Tile(Tile::TileType::Wall); // The edge of the matrix
@@ -92,6 +94,7 @@ void Map::GenerateRoom(int x, int y)
 				fullMap[i][j] = new Tile(Tile::TileType::Floor); // The "inside" of the matrix
 			}
 		}
+		// std::cout << std::endl;
 	}
 	// Open doors
 	// UP
@@ -140,10 +143,13 @@ void Map::GenerateWall(int x, int y)
 {
 	for (int i = x * ROOM_HEIGHT; i < x * ROOM_HEIGHT + ROOM_HEIGHT; i++)
 	{
+		// std::cout << i << ": ";
 		for (int j = y * ROOM_WIDTH; j < y * ROOM_WIDTH + ROOM_WIDTH; j++)
 		{
+			// std::cout << j << " ";
 			fullMap[i][j] = new Tile(Tile::TileType::Wall);
 		}
+		// std::cout << std::endl;
 	}
 }
 
@@ -152,6 +158,7 @@ void Map::GenerateFullMap()
 {
 	fullMap = new Tile * *[ROOM_HEIGHT * height];
 	pathfindHelper = new bool* [ROOM_HEIGHT * height];
+
 	for (int i = 0; i < ROOM_HEIGHT * height; i++)
 	{
 		fullMap[i] = new Tile * [ROOM_WIDTH * width];
@@ -162,17 +169,14 @@ void Map::GenerateFullMap()
 	{
 		for (int j = 0; j < width; j++)
 		{
-			// GenerateWall(i, j);
 			if (!baseMap[i][j])
 			{
-
 				std::cout << "Wall ";
 
 				GenerateWall(i, j); // The edge of the matrix
 			}
 			else
 			{
-
 				std::cout << "Room ";
 
 				GenerateRoom(i, j); // The "inside" of the matrix
@@ -180,7 +184,7 @@ void Map::GenerateFullMap()
 		}
 		std::cout << std::endl;
 	}
-
+	
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
@@ -189,7 +193,6 @@ void Map::GenerateFullMap()
 		}
 	}
 	// Yes, I could make this more efficient, but this way, the code is more simpler
-	// Plus, this is loading time
 }
 
 Map::Map()
@@ -203,18 +206,22 @@ Map::~Map()
 	for (int i = 0; i < height; i++)
 	{
 		delete baseMap[i];
+		delete pathfindHelper[i];
 	}
-	delete[]baseMap;
+	delete[] pathfindHelper;
+	delete[] baseMap;
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
+
 			delete fullMap[i][j];
 		}
+
 		delete[] fullMap[i];
 	}
-	delete[] fullMap;
 
+	delete[] fullMap;
 }
 
 
@@ -257,9 +264,9 @@ DLinkedList<Point>* Map::Pathfind(Point begin, Point target)
 	return BStar(pathfindHelper, height * ROOM_HEIGHT, width * ROOM_WIDTH, begin, target);
 }
 
-
-
-
-
+DLinkedList<Point>* Map::PathfindInLogicMap(Point begin, Point target)
+{
+	return BStar(baseMap, height, width, begin, target);
+}
 
 #endif

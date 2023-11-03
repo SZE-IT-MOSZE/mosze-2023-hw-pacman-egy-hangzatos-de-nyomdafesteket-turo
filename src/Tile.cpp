@@ -59,9 +59,11 @@ void Tile::SetTileType(TileType t)
 	case Other:
 		this->icon = '\0';
 		this->passable = false;
-		break;	
+		break;
 
 	default:
+		this->icon = '\0';
+		this->passable = false;
 		break;
 	}
 }

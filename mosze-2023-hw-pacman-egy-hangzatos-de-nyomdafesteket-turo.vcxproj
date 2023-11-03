@@ -157,6 +157,7 @@
     <ClInclude Include="src\KeyInput.hpp" />
     <ClInclude Include="src\Map.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
+    <ClInclude Include="src\RenderImage.hpp" />
     <ClInclude Include="src\Tile.hpp" />
     <ClInclude Include="src\Triggerable.hpp" />
     <ClInclude Include="src\Updateable.hpp" />

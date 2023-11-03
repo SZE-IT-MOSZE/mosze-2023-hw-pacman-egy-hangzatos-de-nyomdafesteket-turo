@@ -10,9 +10,12 @@ class Engine;
 #include "Point.cpp"
 #include "Updateable.hpp"
 #include "Triggerable.hpp"
+#include "RenderImage.hpp"
 #include "Renderer.hpp"
 #include "Map.hpp"
 #include "GameObject.hpp"
+#include <iostream>
+
 
 
 class Engine
@@ -37,12 +40,7 @@ public:
 	/// <returns>The number of chosen option</returns>
 	int MainMenu();
 
-	/// <summary>
-	/// The game
-	/// </summary>
-	void StartGame();
-
-	enum Options
+	static enum MenuOptions
 	{
 		Quit = 0,
 		PlayRandom = 1,
@@ -56,7 +54,12 @@ public:
 	/// <param name="mapWidth">Width of the map</param>
 	/// <param name="mapHeight">Height of the map</param>
 	/// <param name="seed">Seed for the random generator</param>
-	void PrepareGame(int mapWidth, int mapHeight, int seed = 1);
+	void PrepareGame();
+
+	/// <summary>
+	/// The game
+	/// </summary>
+	void StartGame();
 
 	/// <summary>
 	/// Destroys the object from the game.

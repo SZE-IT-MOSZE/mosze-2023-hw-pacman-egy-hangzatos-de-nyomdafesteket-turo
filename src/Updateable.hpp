@@ -7,7 +7,7 @@ public:
 	/// <summary>
 	/// Called by the engine at the first frame of this object's existance
 	/// </summary>
-	virtual void FisrtUpdate() = 0;
+	virtual void FirstUpdate() = 0;
 
 	/// <summary>
 	/// Called every frame

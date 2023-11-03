@@ -3,11 +3,11 @@
 
 #include "Engine.hpp"
 
-class GameObject : public ITriggerable, public IUpdateable
+class GameObject : public IUpdateable // , public ITriggerable, public IRenderImage
 {
 public:
 	GameObject() = delete; // Abstract
-	virtual ~GameObject() = 0;
+	virtual ~GameObject();
 
 	/// <summary>
 	/// Step left on the map

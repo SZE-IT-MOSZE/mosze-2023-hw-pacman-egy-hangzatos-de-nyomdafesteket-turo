@@ -4,7 +4,7 @@
 #include "KeyInput.hpp"
 
 
-KeyName* KeyInput::GetActiveKeys()
+KeyInput::KeyName* KeyInput::GetActiveKeys()
 {
 	return activeKeys;
 }

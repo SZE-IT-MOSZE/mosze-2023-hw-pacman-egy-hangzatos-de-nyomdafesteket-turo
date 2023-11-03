@@ -7,6 +7,10 @@
 
 #endif
 
+GameObject::~GameObject()
+{
+}
+
 void GameObject::StepLeft()
 {
 	location = location + PointLeft();
