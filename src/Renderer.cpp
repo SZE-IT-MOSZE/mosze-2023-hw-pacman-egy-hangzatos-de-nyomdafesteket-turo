@@ -58,6 +58,36 @@ bool Renderer::StopDispayling(IRenderImage* target)
 	return false;
 }
 
+void Renderer::DebugDisplay()
+{
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{0,0});
+
+
+	int roomX = mainCharacter->location.x - mainCharacter->location.x % ROOM_HEIGHT;
+	int roomY = mainCharacter->location.y - mainCharacter->location.y % ROOM_WIDTH;
+	// SetCursorPos(0, 0);
+	for (int i = roomX; i < roomX + ROOM_HEIGHT; i++)
+	{
+		for (int j = roomY; j < roomY + ROOM_WIDTH; j++)
+		{
+			if (engine->GetMap()->fullMap[i][j]->content == mainCharacter)
+			{
+				std::cout << 'M';
+			}
+			else if (engine->GetMap()->fullMap[i][j]->content != nullptr)
+			{
+				std::cout << 'E';
+			}
+			else
+			{
+				std::cout << engine->GetMap()->fullMap[i][j]->GetIcon();
+			}
+
+		}
+		std::cout << std::endl;
+	}
+}
+
 void Renderer::Display(int location, int index)
 {
 

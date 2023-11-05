@@ -5,33 +5,50 @@
 
 
 
-#endif
+GameObject::GameObject()
+{
+	this->engine = Engine::GetInstance();
+}
+
+GameObject::GameObject(Engine* e)
+{
+	this->engine = e;
+}
+
+GameObject::GameObject(Engine* e, Point position)
+{
+	this->engine = e;
+	this->location = position;
+}
 
 GameObject::~GameObject()
 {
+	
 }
 
-void GameObject::StepLeft()
+bool GameObject::StepLeft()
 {
-	location = location + PointLeft();
+	return engine->MoveObject(this, location + PointLeft());
 }
 
-void GameObject::StepUp()
+bool GameObject::StepUp()
 {
-	location = location + PointUp();
+	return engine->MoveObject(this, location + PointUp());
 }
 
-void GameObject::StepRight()
+bool GameObject::StepRight()
 {
-	location = location + PointRight();
+	return engine->MoveObject(this, location + PointRight());
 }
 
-void GameObject::StepDown()
+bool GameObject::StepDown()
 {
-	location = location + PointDown();
+	return engine->MoveObject(this, location + PointDown());
 }
 
 void GameObject::DestroyThis()
 {
 	engine->DestroyObject(this);
 }
+
+#endif

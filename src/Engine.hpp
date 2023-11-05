@@ -12,8 +12,9 @@ class Engine;
 #include "Triggerable.hpp"
 #include "RenderImage.hpp"
 #include "Renderer.hpp"
-#include "Map.hpp"
 #include "GameObject.hpp"
+#include "MainCharacter.hpp"
+#include "Map.hpp"
 #include <iostream>
 
 
@@ -59,7 +60,9 @@ public:
 	/// <summary>
 	/// The game
 	/// </summary>
-	void StartGame();
+	bool GameFrame();
+
+	bool DebugFrame();
 
 	/// <summary>
 	/// Destroys the object from the game.
@@ -68,6 +71,10 @@ public:
 	void DestroyObject(GameObject* target);
 
 	Map* GetMap();
+
+	MainCharacter* mainCharacter;
+
+	bool MoveObject(GameObject* what, Point target);
 
 private:
 	static Engine* enginePtr;
@@ -80,7 +87,8 @@ private:
 	/// <summary>
 	/// A frame of the game. Every logic goes here
 	/// </summary>
-	void Frame();
+	/// <returns>If the game has ended</returns>
+	bool Frame();
 
 	Engine();
 

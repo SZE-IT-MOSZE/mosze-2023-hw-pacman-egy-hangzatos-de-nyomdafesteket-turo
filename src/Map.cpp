@@ -68,12 +68,24 @@ void Map::GenerateCluster(int x, int y)
 	baseMap[x - 1 + cSize / 2][y + rand() % 2 + 3] = true;
 
 	// This can cause isolated cells
-	for (int i = x; i < x + cSize; i++)
+	if (rand() % 2 == 0)
 	{
-		baseMap[i][y] = false;
+		for (int i = x; i < x + cSize; i++)
+		{
+			baseMap[i][y] = false;
+		}
+		baseMap[x + rand() % 2][y] = true;
+		baseMap[x + rand() % 2 + 3][y] = true;
 	}
-	baseMap[x + rand() % 2][y] = true;
-	baseMap[x + rand() % 2 + 3][y] = true;
+	else
+	{
+		for (int i = x; i < x + cSize; i++)
+		{
+			baseMap[i][y + cSize - 2] = false;
+		}
+		baseMap[x + rand() % 2][y + cSize - 2] = true;
+		baseMap[x + rand() % 2 + 3][y + cSize - 2] = true;
+	}
 
 }
 
@@ -171,13 +183,13 @@ void Map::GenerateFullMap()
 		{
 			if (!baseMap[i][j])
 			{
-				std::cout << "Wall ";
+				// std::cout << "Wall ";
 
 				GenerateWall(i, j); // The edge of the matrix
 			}
 			else
 			{
-				std::cout << "Room ";
+				// std::cout << "Room ";
 
 				GenerateRoom(i, j); // The "inside" of the matrix
 			}
@@ -185,6 +197,87 @@ void Map::GenerateFullMap()
 		std::cout << std::endl;
 	}
 
+}
+
+void Map::GenerateGameObjects()
+{
+	int totalSize = ROOM_HEIGHT * height * ROOM_WIDTH * width;
+	float percentage = 0.0;
+	bool forcedPlace = false;
+
+	// Generate random walls
+	percentage = 0.07;
+	int changesMade = 0;
+	int x, y;
+	while (changesMade < percentage * totalSize)
+	{
+		x = rand() % (ROOM_HEIGHT * height);
+		// std::cout << x << std::endl;
+		y = rand() % (ROOM_WIDTH * width);
+		if (pathfindHelper[x][y])
+		{
+			pathfindHelper[x][y] = false;
+			fullMap[x][y]->SetTileType(Tile::TileType::Wall);
+			changesMade++;
+		}
+	}
+
+	// Select starting room
+	x = height - 2;
+	do
+	{
+		y = rand() % (width - 2);
+	} while (!baseMap[x][y]);
+
+	// Clear out starting room
+
+	for (int i = x * ROOM_HEIGHT + 1; i < x * ROOM_HEIGHT + ROOM_HEIGHT - 1; i++)
+	{
+		for (int j = y * ROOM_WIDTH + 1; j < y * ROOM_WIDTH + ROOM_WIDTH - 1; j++)
+		{
+			fullMap[i][j]->SetTileType(Tile::TileType::Floor);
+			pathfindHelper[i][j] = true;
+		}
+	}
+
+	if (baseMap[x - 1][y]) // Room UP starting room is available
+	{
+		for (int i = 0; i < DOOR_WIDTH; i++)
+		{
+			fullMap[x * ROOM_HEIGHT][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT - 1][(y * ROOM_WIDTH + ROOM_WIDTH / 2) - DOOR_WIDTH / 2 + i]->SetTileType(Tile::TileType::Floor);
+		}
+	}
+	if (baseMap[x][y - 1]) // Left
+	{
+		for (int i = 0; i < DOOR_WIDTH; i++)
+		{
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH - 1]->SetTileType(Tile::TileType::Floor);
+		}
+	}
+	if (baseMap[x][y + 1]) // Right
+	{
+		for (int i = 0; i < DOOR_WIDTH; i++)
+		{
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH + ROOM_WIDTH - 1]->SetTileType(Tile::TileType::Floor);
+			fullMap[x * ROOM_HEIGHT + ROOM_HEIGHT / 2 - DOOR_WIDTH / 2 + i][y * ROOM_WIDTH + ROOM_WIDTH]->SetTileType(Tile::TileType::Floor);
+		}
+	}
+
+	// Select starting position
+
+	x = 1 + x * ROOM_HEIGHT + rand() % (ROOM_HEIGHT - 2);
+	y = 1 + y * ROOM_WIDTH + rand() % (ROOM_WIDTH - 2);
+
+	engine->mainCharacter = new MainCharacter(engine, Point{ x, y });
+	Renderer::GetInstance()->mainCharacter = engine->mainCharacter;
+
+
+	fullMap[x][y]->content = engine->mainCharacter;
+
+
+	// After objects are placed
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
@@ -192,7 +285,7 @@ void Map::GenerateFullMap()
 			pathfindHelper[i][j] = fullMap[i][j]->Passable();
 		}
 	}
-	// Yes, I could make this more efficient, but this way, the code is more simpler
+
 }
 
 Map::Map()
@@ -200,6 +293,14 @@ Map::Map()
 	baseMap = nullptr;
 	fullMap = nullptr;
 	pathfindHelper = nullptr;
+	engine = nullptr;
+}
+Map::Map(Engine* e)
+{
+	baseMap = nullptr;
+	fullMap = nullptr;
+	pathfindHelper = nullptr;
+	this->engine = e;
 }
 
 Map::~Map()
@@ -207,7 +308,11 @@ Map::~Map()
 	for (int i = 0; i < height; i++)
 	{
 		delete baseMap[i];
+	}
+	for (int i = 0; i < height * ROOM_HEIGHT; i++)
+	{
 		delete pathfindHelper[i];
+
 	}
 	delete[] pathfindHelper;
 	delete[] baseMap;

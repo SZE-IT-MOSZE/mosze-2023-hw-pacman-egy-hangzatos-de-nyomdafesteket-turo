@@ -9,16 +9,7 @@
 Tile::Tile()
 {
 	Tile::Init();
-	Tile::SetTileType(TileType::Other);
-}
-
-
-Tile::Tile(char icon, bool passable)
-{
-	Tile::Init();
-	this->icon = icon;
-	this->passable = passable;
-	this->tileType = TileType::Other;
+	Tile::SetTileType(TileType::Wall);
 }
 
 Tile::Tile(TileType t)
@@ -56,11 +47,6 @@ void Tile::SetTileType(TileType t)
 		this->passable = true;
 		break;
 
-	case Other:
-		this->icon = '\0';
-		this->passable = false;
-		break;
-
 	default:
 		this->icon = '\0';
 		this->passable = false;
@@ -75,4 +61,5 @@ char Tile::GetIcon()
 
 void Tile::Init()
 {
+	content = nullptr;
 }

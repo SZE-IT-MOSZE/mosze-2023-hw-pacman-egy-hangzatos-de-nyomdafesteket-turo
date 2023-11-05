@@ -4,12 +4,13 @@
 #include "DDelegate.hpp"
 #include "Engine.hpp"
 
+
 class Tile
 {
 
 public:
 
-	enum TileType { Other = 0, Wall = 1, Floor = 2};
+	enum TileType { Wall = 0, Floor = 1};
 
 	Tile();
 
@@ -27,6 +28,7 @@ public:
 
 	char GetIcon();
 
+	GameObject* content;
 
 private:
 	void Init();

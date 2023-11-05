@@ -7,6 +7,7 @@
 #define BOTTOM_LEFT 2
 #define BOTTOM_Right 3
 
+#include "MainCharacter.hpp"
 #include "Engine.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -38,6 +39,10 @@ public:
 	bool StartDispayling(IRenderImage* target);
 
 	bool StopDispayling(IRenderImage* target);
+
+	MainCharacter* mainCharacter;
+
+	void DebugDisplay();
 
 private:
 	void Display(int location, int index);

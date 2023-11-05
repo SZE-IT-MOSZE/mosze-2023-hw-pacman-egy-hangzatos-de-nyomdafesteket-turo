@@ -140,6 +140,7 @@
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\KeyInput.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
+    <ClCompile Include="src\MainCharacter.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -154,7 +155,9 @@
     <ClInclude Include="src\DLinkedListNode.hpp" />
     <ClInclude Include="src\Engine.hpp" />
     <ClInclude Include="src\GameObject.hpp" />
+    <ClInclude Include="src\GenerationInfo.hpp" />
     <ClInclude Include="src\KeyInput.hpp" />
+    <ClInclude Include="src\MainCharacter.hpp" />
     <ClInclude Include="src\Map.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
     <ClInclude Include="src\RenderImage.hpp" />

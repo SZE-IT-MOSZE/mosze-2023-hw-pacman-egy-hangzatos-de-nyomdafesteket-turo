@@ -20,18 +20,42 @@ void Engine::PrepareGame()
 	height = 7;
 	seed = 1;
 
-	std::cout << "Map width (default: " << width << "): ";
+	std::cout << "Map width (recommended: " << width << "): ";
 	std::cin >> width;
 
-	std::cout << "Map height (default: " << height << "): ";
+	std::cout << "Map height (recommended: " << height << "): ";
 	std::cin >> height;
 
-	std::cout << "Map seed (default: " << seed << "): ";
+	std::cout << "Map seed (recommended: " << seed << "): ";
 	std::cin >> seed;
 
 	map->GenerateBaseMap(width, height, seed);
 	map->GenerateFullMap();
+	map->GenerateGameObjects();
+	// map->DisplayFullMap();
 	// TODO: Generate objects, place player and exit
+}
+
+bool Engine::GameFrame()
+{
+	for (int i = 0; i < updateList->Count(); i++)
+	{
+		updateList->SeekToIndex(i);
+		updateDelay->SeekToIndex(i);
+	}
+	return false;
+}
+
+bool Engine::DebugFrame()
+{
+	KeyInput::Update();
+	mainCharacter->Update();
+	rendererPtr->DebugDisplay();
+	if (keyReader->GetActiveKeys()[5] == KeyInput::KeyName::Esc)
+	{
+		return true;
+	}
+	return false;
 }
 
 void Engine::DestroyObject(GameObject* target)
@@ -47,6 +71,19 @@ void Engine::DestroyObject(GameObject* target)
 Map* Engine::GetMap()
 {
 	return map;
+}
+
+bool Engine::MoveObject(GameObject* what, Point target)
+{
+	// Check if space is available
+	if (map->fullMap[target.x][target.y]->content == nullptr && map->fullMap[target.x][target.y]->Passable())
+	{
+		map->fullMap[what->location.x][what->location.y]->content = nullptr;
+		what->location = target;
+		map->fullMap[what->location.x][what->location.y]->content = what;
+		return true;
+	}
+	return false;
 }
 
 int Engine::MainMenu()
@@ -89,11 +126,12 @@ Engine::~Engine()
 	delete keyReader;
 	delete rendererPtr;
 	delete deleteList;
+	delete mainCharacter;
 }
 
 void Engine::Init()
 {
-	map = new Map();
+	map = new Map(this);
 	keyReader = KeyInput::GetInstance();
 	triggerList = new DLinkedList<ITriggerable*>();
 	updateList = new DLinkedList<IUpdateable*>();

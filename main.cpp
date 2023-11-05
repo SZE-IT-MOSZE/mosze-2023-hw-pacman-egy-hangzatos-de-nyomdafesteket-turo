@@ -27,6 +27,14 @@ int main()
 	else if (option == (int)Engine::MenuOptions::PlayRandom)
 	{		
 		engine->PrepareGame();
+		Renderer::GetInstance()->DebugDisplay();
+		bool exit = false;
+		system("cls");
+		while (!exit)
+		{
+			exit = engine->DebugFrame();
+			Sleep(100);
+		}
 	}
 	delete Engine::GetInstance();
 	std::cout << _CrtDumpMemoryLeaks();
