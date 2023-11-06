@@ -137,6 +137,7 @@
     <ClCompile Include="src\DLinkedList.cpp" />
     <ClCompile Include="src\DLinkedListNode.cpp" />
     <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Exit.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\KeyInput.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="src\DLinkedList.hpp" />
     <ClInclude Include="src\DLinkedListNode.hpp" />
     <ClInclude Include="src\Engine.hpp" />
+    <ClInclude Include="src\Exit.hpp" />
     <ClInclude Include="src\GameObject.hpp" />
     <ClInclude Include="src\GenerationInfo.hpp" />
     <ClInclude Include="src\KeyInput.hpp" />

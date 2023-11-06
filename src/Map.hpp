@@ -9,6 +9,7 @@
 #define ROOM_WIDTH 30
 #define ROOM_HEIGHT 17
 #define DOOR_WIDTH 2
+#define EXITCOUNT 5
 
 class Map
 {

@@ -194,7 +194,7 @@ void Map::GenerateFullMap()
 				GenerateRoom(i, j); // The "inside" of the matrix
 			}
 		}
-		std::cout << std::endl;
+		// std::cout << std::endl;
 	}
 
 }
@@ -273,8 +273,32 @@ void Map::GenerateGameObjects()
 	engine->mainCharacter = new MainCharacter(engine, Point{ x, y });
 	Renderer::GetInstance()->mainCharacter = engine->mainCharacter;
 
+	fullMap[x][y]->content = engine->mainCharacter; // TODO: Make automatic 
 
-	fullMap[x][y]->content = engine->mainCharacter;
+	// Select exit position
+	for (int i = 0; i < EXITCOUNT; i++)
+	{
+		x = 1;
+		do
+		{
+			y = rand() % (width - 2);
+		} while (!baseMap[x][y]);
+		int offsetX, offsetY;
+
+		do
+		{
+			offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
+			offsetY = 1 + rand() % (ROOM_WIDTH - 2);
+		} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
+		engine->exits[i] = new Exit(engine, Point{ x * ROOM_HEIGHT + offsetX , y * ROOM_WIDTH + offsetY });
+		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->content = engine->exits[i];
+	}
+
+
+
+
+
+
 
 
 	// After objects are placed

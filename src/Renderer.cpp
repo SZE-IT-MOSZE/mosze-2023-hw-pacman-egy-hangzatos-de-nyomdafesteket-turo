@@ -60,7 +60,7 @@ bool Renderer::StopDispayling(IRenderImage* target)
 
 void Renderer::DebugDisplay()
 {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{0,0});
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0,0 });
 
 
 	int roomX = mainCharacter->location.x - mainCharacter->location.x % ROOM_HEIGHT;
@@ -73,12 +73,23 @@ void Renderer::DebugDisplay()
 			if (engine->GetMap()->fullMap[i][j]->content == mainCharacter)
 			{
 				std::cout << 'M';
+				continue;
 			}
-			else if (engine->GetMap()->fullMap[i][j]->content != nullptr)
+			int k;
+			for (k = 0; k < EXITCOUNT; k++)
 			{
-				std::cout << 'E';
+				if (engine->GetMap()->fullMap[i][j]->content == engine->exits[k])
+				{
+					std::cout << 'E';
+					break;
+				}
 			}
-			else
+			if (engine->GetMap()->fullMap[i][j]->content != nullptr && (k >= EXITCOUNT))
+			{
+				std::cout << 'O';
+				continue;
+			}
+			else 
 			{
 				std::cout << engine->GetMap()->fullMap[i][j]->GetIcon();
 			}

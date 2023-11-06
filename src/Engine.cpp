@@ -33,7 +33,7 @@ void Engine::PrepareGame()
 	map->GenerateFullMap();
 	map->GenerateGameObjects();
 	// map->DisplayFullMap();
-	// TODO: Generate objects, place player and exit
+	// TODO: move every gameobject into an array
 }
 
 bool Engine::GameFrame()
@@ -49,13 +49,13 @@ bool Engine::GameFrame()
 bool Engine::DebugFrame()
 {
 	KeyInput::Update();
+	for (int i = 0; i < EXITCOUNT; i++)
+	{
+		exits[i]->Update();
+	}
 	mainCharacter->Update();
 	rendererPtr->DebugDisplay();
-	if (keyReader->GetActiveKeys()[5] == KeyInput::KeyName::Esc)
-	{
-		return true;
-	}
-	return false;
+	return CheckExit();
 }
 
 void Engine::DestroyObject(GameObject* target)
@@ -86,6 +86,32 @@ bool Engine::MoveObject(GameObject* what, Point target)
 	return false;
 }
 
+double Engine::Distance(Point p1, Point p2)
+{
+	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
+void Engine::WinGame()
+{
+	gameEnds = true;
+	gameWon = true;
+}
+
+bool Engine::Frame()
+{
+	return false;
+}
+
+void Engine::NewGameObject(GameObject* what)
+{
+	this->gameObjectsList->PushLast(what);
+}
+
+bool Engine::CheckExit()
+{
+	return gameEnds || keyReader->GetActiveKeys()[5] == KeyInput::KeyName::Esc;
+}
+
 int Engine::MainMenu()
 {
 	SAY "Robo survivor" << ENDL;
@@ -102,7 +128,7 @@ int Engine::MainMenu()
 	SAY "3: Create Map" << ENDL;
 	int ret;
 	std::cin >> ret;
-	while (ret < (int)Engine::MenuOptions::Quit || ret > (int)Engine::MenuOptions::CreateMap)
+	while (ret < (int)Engine::MenuOptions::Quit || ret >(int)Engine::MenuOptions::CreateMap)
 	{
 		SAY "Invalid option. Again!" << ENDL;
 		std::cin >> ret;
@@ -115,18 +141,23 @@ Engine::~Engine()
 {
 	triggerList->Empty(true);
 	updateList->Empty(true);
-	gameObjects->Empty(true);
+	gameObjectsList->Empty(true);
 	deleteList->Empty(true);
 
 	delete triggerList;
 	delete updateList;
 	delete updateDelay;
-	delete gameObjects;
+	delete gameObjectsList;
 	delete map;
 	delete keyReader;
 	delete rendererPtr;
 	delete deleteList;
 	delete mainCharacter;
+	for (int i = 0; i < EXITCOUNT; i++)
+	{
+		delete exits[i];
+	}
+	delete[] exits;
 }
 
 void Engine::Init()
@@ -136,10 +167,11 @@ void Engine::Init()
 	triggerList = new DLinkedList<ITriggerable*>();
 	updateList = new DLinkedList<IUpdateable*>();
 	updateDelay = new DLinkedList<int>();
-	gameObjects = new DLinkedList<GameObject*>();
+	gameObjectsList = new DLinkedList<GameObject*>();
 	rendererPtr = Renderer::GetInstance();
 	Renderer::engine = this;
 	deleteList = new DLinkedList<GameObject*>();
+	exits = new Exit*[EXITCOUNT];
 }
 
 Engine* Engine::GetInstance()

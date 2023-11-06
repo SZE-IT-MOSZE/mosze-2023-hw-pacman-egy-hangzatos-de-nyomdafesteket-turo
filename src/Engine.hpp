@@ -15,6 +15,7 @@ class Engine;
 #include "GameObject.hpp"
 #include "MainCharacter.hpp"
 #include "Map.hpp"
+#include "Exit.hpp"
 #include <iostream>
 
 
@@ -74,7 +75,15 @@ public:
 
 	MainCharacter* mainCharacter;
 
+	Exit** exits;
+
 	bool MoveObject(GameObject* what, Point target);
+
+	static double Distance(Point p1, Point p2);
+
+	void WinGame();
+
+	void NewGameObject(GameObject* what);
 
 private:
 	static Engine* enginePtr;
@@ -102,12 +111,16 @@ private:
 
 	DLinkedList<int>* updateDelay;
 
-	DLinkedList<GameObject*>* gameObjects;
+	DLinkedList<GameObject*>* gameObjectsList;
 
 	DLinkedList<GameObject*>* deleteList; // Delete items at the end of the frame, before Clock
 
 	Renderer* rendererPtr;
 
+	bool CheckExit();
+
+	bool gameEnds;
+	bool gameWon;
 };
 
 Engine* Engine::enginePtr = nullptr;
