@@ -3,12 +3,12 @@
 #include "src\Engine.hpp"
 
 
-#ifdef DEBUG
 
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#ifdef DEBUG
 
 #endif // DEBUG
 
@@ -25,7 +25,7 @@ int main()
 		return 0;
 	}
 	else if (option == (int)Engine::MenuOptions::PlayRandom)
-	{		
+	{
 		engine->PrepareGame();
 		Renderer::GetInstance()->DebugDisplay();
 		bool exit = false;
@@ -38,5 +38,5 @@ int main()
 	}
 	delete Engine::GetInstance();
 	std::cout << _CrtDumpMemoryLeaks();
-	return 0; 
+	return 0;
 }

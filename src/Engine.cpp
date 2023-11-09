@@ -34,22 +34,58 @@ void Engine::PrepareGame()
 	map->GenerateGameObjects();
 	// map->DisplayFullMap();
 	// TODO: move every gameobject into an array
+	gameObjectsCount = gameObjectsList->Count();
+	isUpdatingGameObject = new bool[gameObjectsCount];
+	gameObjects = new GameObject * [gameObjectsCount];
+	for (int i = 0; i < gameObjectsCount; i++)
+	{
+		gameObjectsList->SeekToIndex(i);
+		gameObjects[i] = gameObjectsList->currentElement->data;
+		isUpdatingGameObject[i] = false;
+	}
+	gameObjectsList->Empty();
 }
 
 bool Engine::GameFrame()
 {
 	for (int i = 0; i < updateList->Count(); i++)
 	{
+		updateDelayList->SeekToIndex(i);
 		updateList->SeekToIndex(i);
-		updateDelay->SeekToIndex(i);
+		if (updateDelayList->currentElement->data <= 0)
+		{
+			updateDelayList->currentElement->data = updateList->currentElement->data->Update();
+		}
+		else
+		{
+			--updateDelayList->currentElement->data;
+		}
 	}
-	return false;
+	for (int i = 0; i < gameObjectsCount; i++)
+	{
+		if (Distance(mainCharacter->location, gameObjects[i]->location) <= UPDATE_DISTANCE)
+		{
+			updateList->PushLast(gameObjects[i]);
+			updateDelayList->PushLast(0);
+			isUpdatingGameObject[i] = true;
+		}
+		else if (isUpdatingGameObject[i])
+		{
+			int index = updateList->IndexOf(gameObjects[i]);
+			updateList->RemoveAt(index);
+			updateDelayList->RemoveAt(index);
+			updateList->SeekToIndex(0);
+			isUpdatingGameObject[i] = false;
+		}
+	}
+	// rendererPtr.Dispaly(); // TODO
+	return gameEnds;
 }
 
 bool Engine::DebugFrame()
 {
 	KeyInput::Update();
-	for (int i = 0; i < EXITCOUNT; i++)
+	for (int i = 0; i < EXIT_COUNT; i++)
 	{
 		exits[i]->Update();
 	}
@@ -102,8 +138,9 @@ bool Engine::Frame()
 	return false;
 }
 
-void Engine::NewGameObject(GameObject* what)
+void Engine::AddGameObject(GameObject* what)
 {
+	map->fullMap[what->location.x][what->location.y]->content = what;
 	this->gameObjectsList->PushLast(what);
 }
 
@@ -139,21 +176,28 @@ int Engine::MainMenu()
 
 Engine::~Engine()
 {
+	for (int i = 0; i < gameObjectsCount; i++)
+	{
+		delete gameObjects[i];
+	}
+	delete[] isUpdatingGameObject;
+	delete[] gameObjects;
 	triggerList->Empty(true);
-	updateList->Empty(true);
+	updateList->Empty(); // Subset of gameObjects
 	gameObjectsList->Empty(true);
 	deleteList->Empty(true);
 
 	delete triggerList;
 	delete updateList;
-	delete updateDelay;
+	delete updateDelayList;
 	delete gameObjectsList;
 	delete map;
 	delete keyReader;
 	delete rendererPtr;
 	delete deleteList;
 	delete mainCharacter;
-	for (int i = 0; i < EXITCOUNT; i++)
+
+	for (int i = 0; i < EXIT_COUNT; i++)
 	{
 		delete exits[i];
 	}
@@ -166,12 +210,16 @@ void Engine::Init()
 	keyReader = KeyInput::GetInstance();
 	triggerList = new DLinkedList<ITriggerable*>();
 	updateList = new DLinkedList<IUpdateable*>();
-	updateDelay = new DLinkedList<int>();
+	updateDelayList = new DLinkedList<int>();
 	gameObjectsList = new DLinkedList<GameObject*>();
 	rendererPtr = Renderer::GetInstance();
 	Renderer::engine = this;
 	deleteList = new DLinkedList<GameObject*>();
-	exits = new Exit*[EXITCOUNT];
+	exits = new Exit * [EXIT_COUNT];
+	for (int i = 0; i < EXIT_COUNT; i++)
+	{
+		exits[i] = nullptr;
+	}
 }
 
 Engine* Engine::GetInstance()

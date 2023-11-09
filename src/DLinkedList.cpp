@@ -382,6 +382,25 @@ void DLinkedList<T>::Empty(bool deleteItem)
 	count = 0;
 }
 
+template<class T>
+int DLinkedList<T>::IndexOf(T item)
+{
+	unsigned int revert = currentIndex;
+	SeekToIndex(0);
+	int ret = -1;
+	do
+	{
+		if (currentElement->data == item)
+		{
+			ret = currentIndex;
+			break;
+		}
+		StepForward();
+	} while (currentIndex != count - 1);
+	SeekToIndex(revert);
+	return ret;
+}
+
 
 
 template<class T>

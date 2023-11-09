@@ -13,11 +13,15 @@ class Engine;
 #include "RenderImage.hpp"
 #include "Renderer.hpp"
 #include "GameObject.hpp"
+#include "NPC.hpp"
 #include "MainCharacter.hpp"
+#include "Behaviour.hpp"
+#include "BehaviourTemplates.hpp"
 #include "Map.hpp"
 #include "Exit.hpp"
 #include <iostream>
 
+#define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
 
 
 class Engine
@@ -83,7 +87,7 @@ public:
 
 	void WinGame();
 
-	void NewGameObject(GameObject* what);
+	void AddGameObject(GameObject* what);
 
 private:
 	static Engine* enginePtr;
@@ -105,13 +109,18 @@ private:
 
 	KeyInput* keyReader;
 
-	DLinkedList<ITriggerable*>* triggerList;
+	DLinkedList<ITriggerable*>* triggerList; 
+	//ITriggerable** toTrigger;
+	//int toTriggerCount; // TODO: Decide
 
-	DLinkedList<IUpdateable*>* updateList;
+	DLinkedList<IUpdateable*>* updateList; // updates only the objects within the next rooms
 
-	DLinkedList<int>* updateDelay;
+	DLinkedList<int>* updateDelayList; // During generation
 
-	DLinkedList<GameObject*>* gameObjectsList;
+	DLinkedList<GameObject*>* gameObjectsList; // During generation
+	GameObject** gameObjects;
+	bool* isUpdatingGameObject;
+	int gameObjectsCount;
 
 	DLinkedList<GameObject*>* deleteList; // Delete items at the end of the frame, before Clock
 

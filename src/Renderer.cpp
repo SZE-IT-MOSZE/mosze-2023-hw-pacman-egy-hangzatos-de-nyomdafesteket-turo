@@ -75,21 +75,26 @@ void Renderer::DebugDisplay()
 				std::cout << 'M';
 				continue;
 			}
-			int k;
-			for (k = 0; k < EXITCOUNT; k++)
+			bool exit = false;
+			for (int k = 0; k < EXIT_COUNT; k++)
 			{
 				if (engine->GetMap()->fullMap[i][j]->content == engine->exits[k])
 				{
 					std::cout << 'E';
+					exit = true;
 					break;
 				}
 			}
-			if (engine->GetMap()->fullMap[i][j]->content != nullptr && (k >= EXITCOUNT))
+			if (exit)
+			{
+				continue;
+			}
+			if (engine->GetMap()->fullMap[i][j]->content != nullptr)
 			{
 				std::cout << 'O';
 				continue;
 			}
-			else 
+			else
 			{
 				std::cout << engine->GetMap()->fullMap[i][j]->GetIcon();
 			}

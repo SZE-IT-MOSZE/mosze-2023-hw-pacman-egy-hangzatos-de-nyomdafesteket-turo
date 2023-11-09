@@ -130,12 +130,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\BehaviourTemplates.cpp" />
     <ClCompile Include="src\Bstar.cpp" />
     <ClCompile Include="src\Clock.cpp" />
     <ClCompile Include="src\DDelegate.cpp" />
     <ClCompile Include="src\DDelegateAction.cpp" />
     <ClCompile Include="src\DLinkedList.cpp" />
     <ClCompile Include="src\DLinkedListNode.cpp" />
+    <ClCompile Include="src\NPC.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Exit.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
@@ -148,12 +150,15 @@
     <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Behaviour.hpp" />
+    <ClInclude Include="src\BehaviourTemplates.hpp" />
     <ClInclude Include="src\Bstar.hpp" />
     <ClInclude Include="src\Clock.hpp" />
     <ClInclude Include="src\DDelegate.hpp" />
     <ClInclude Include="src\DDelegateAction.hpp" />
     <ClInclude Include="src\DLinkedList.hpp" />
     <ClInclude Include="src\DLinkedListNode.hpp" />
+    <ClInclude Include="src\NPC.hpp" />
     <ClInclude Include="src\Engine.hpp" />
     <ClInclude Include="src\Exit.hpp" />
     <ClInclude Include="src\GameObject.hpp" />

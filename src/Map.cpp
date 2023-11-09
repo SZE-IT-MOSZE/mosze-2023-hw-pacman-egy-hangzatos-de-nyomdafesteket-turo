@@ -276,7 +276,7 @@ void Map::GenerateGameObjects()
 	fullMap[x][y]->content = engine->mainCharacter; // TODO: Make automatic 
 
 	// Select exit position
-	for (int i = 0; i < EXITCOUNT; i++)
+	for (int i = 0; i < EXIT_COUNT; i++)
 	{
 		x = 1;
 		do
@@ -294,7 +294,43 @@ void Map::GenerateGameObjects()
 		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->content = engine->exits[i];
 	}
 
+	// Place NPCs
+	int behaviourCount = 4;
+	Behaviour** behaviourTemplates = new Behaviour * [behaviourCount]; // TODO: rework
+	behaviourTemplates[0] = new BehaviourMovement(100);
+	behaviourTemplates[1] = new BehaviourMovement(1000);
+	behaviourTemplates[2] = new BehaviourVision(5);
+	behaviourTemplates[3] = new BehaviourVision(10);
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (baseMap[i][j] && rand() < NPC_CHANCE)
+			{
+				for (int k = 0; k < NPC_MULTIPLIER_PER_ROOM; k++)
+				{
+					int offsetX, offsetY;
 
+					do
+					{
+						offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
+						offsetY = 1 + rand() % (ROOM_WIDTH - 2);
+					} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
+					Behaviour** tmp = new Behaviour * [BEHAVIOUR_COUNT];
+					tmp[0] = NewBehaviour(0, *behaviourTemplates[0 + rand() % 2]);
+					tmp[1] = NewBehaviour(1, *behaviourTemplates[2 + rand() % 2]);
+					NonPlayableCharacter* npc = new NonPlayableCharacter(tmp);
+					npc->location = Point{ i * ROOM_HEIGHT + offsetX, y * ROOM_WIDTH + offsetY };
+					engine->AddGameObject(npc);
+				}
+			}
+		}
+	}
+	for (int i = 0; i < behaviourCount; i++)
+	{
+		delete behaviourTemplates[i];
+	}
+	delete[] behaviourTemplates;
 
 
 
@@ -333,22 +369,18 @@ Map::~Map()
 	{
 		delete baseMap[i];
 	}
-	for (int i = 0; i < height * ROOM_HEIGHT; i++)
-	{
-		delete pathfindHelper[i];
-
-	}
-	delete[] pathfindHelper;
 	delete[] baseMap;
 
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
+		delete pathfindHelper[i];
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
 			delete fullMap[i][j];
 		}
 		delete[] fullMap[i];
 	}
+	delete[] pathfindHelper;
 	delete[] fullMap;
 }
 
