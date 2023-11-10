@@ -6,12 +6,12 @@
 #include "Engine.hpp"
 
 #define CLUSTER_SIZE 5
-#define ROOM_WIDTH 30
-#define ROOM_HEIGHT 17
+#define ROOM_WIDTH 40
+#define ROOM_HEIGHT 22
 #define DOOR_WIDTH 2
 #define EXIT_COUNT 5
 #define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */
-#define NPC_MULTIPLIER_PER_ROOM 1
+#define NPC_MULTIPLIER_PER_ROOM 10
 
 class Map
 {

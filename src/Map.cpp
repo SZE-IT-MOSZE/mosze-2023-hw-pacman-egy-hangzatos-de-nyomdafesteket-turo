@@ -228,7 +228,9 @@ void Map::GenerateGameObjects()
 	{
 		y = rand() % (width - 2);
 	} while (!baseMap[x][y]);
-
+	int startX, startY;
+	startX = x;
+	startY = y;
 	// Clear out starting room
 
 	for (int i = x * ROOM_HEIGHT + 1; i < x * ROOM_HEIGHT + ROOM_HEIGHT - 1; i++)
@@ -297,31 +299,37 @@ void Map::GenerateGameObjects()
 	// Place NPCs
 	int behaviourCount = 4;
 	Behaviour** behaviourTemplates = new Behaviour * [behaviourCount]; // TODO: rework
-	behaviourTemplates[0] = new BehaviourMovement(100);
-	behaviourTemplates[1] = new BehaviourMovement(1000);
-	behaviourTemplates[2] = new BehaviourVision(5);
-	behaviourTemplates[3] = new BehaviourVision(10);
+	behaviourTemplates[0] = new BehaviourVision(MINVISION);
+	behaviourTemplates[1] = new BehaviourVision(MAXVISION);
+	behaviourTemplates[2] = new BehaviourMovement(MAXDLEAY);
+	behaviourTemplates[3] = new BehaviourMovement(MINDELAY);
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			if (baseMap[i][j] && rand() < NPC_CHANCE)
+			if (baseMap[i][j] && (i != startX || j != startY))
 			{
 				for (int k = 0; k < NPC_MULTIPLIER_PER_ROOM; k++)
 				{
-					int offsetX, offsetY;
-
-					do
+					if (rand() < NPC_CHANCE)
 					{
-						offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
-						offsetY = 1 + rand() % (ROOM_WIDTH - 2);
-					} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
-					Behaviour** tmp = new Behaviour * [BEHAVIOUR_COUNT];
-					tmp[0] = NewBehaviour(0, *behaviourTemplates[0 + rand() % 2]);
-					tmp[1] = NewBehaviour(1, *behaviourTemplates[2 + rand() % 2]);
-					NonPlayableCharacter* npc = new NonPlayableCharacter(tmp);
-					npc->location = Point{ i * ROOM_HEIGHT + offsetX, y * ROOM_WIDTH + offsetY };
-					engine->AddGameObject(npc);
+						int offsetX, offsetY;
+
+						do
+						{
+							offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
+							offsetY = 1 + rand() % (ROOM_WIDTH - 2);
+						} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
+
+						Behaviour** tmp = new Behaviour * [BEHAVIOUR_COUNT];
+
+						tmp[0] = NewBehaviour(0, *behaviourTemplates[0 + rand() % 2]);
+						tmp[1] = NewBehaviour(1, *behaviourTemplates[2 + rand() % 2]);
+
+						NonPlayableCharacter* npc = new NonPlayableCharacter(tmp, Point{ i * ROOM_HEIGHT + offsetX, j * ROOM_WIDTH + offsetY });
+
+						engine->AddGameObject(npc);
+					}
 				}
 			}
 		}

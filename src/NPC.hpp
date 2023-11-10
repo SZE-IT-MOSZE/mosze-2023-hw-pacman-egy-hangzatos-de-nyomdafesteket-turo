@@ -12,6 +12,7 @@ class NonPlayableCharacter : public GameObject
 public:
 	NonPlayableCharacter();
 	NonPlayableCharacter(Behaviour** behaviours);
+	NonPlayableCharacter(Behaviour** behaviours, Point position);
 
 	~NonPlayableCharacter();
 

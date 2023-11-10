@@ -6,7 +6,7 @@
 
 NonPlayableCharacter::NonPlayableCharacter()
 {
-	behaviourStates = new Behaviour*[BEHAVIOUR_COUNT];
+	behaviourStates = new Behaviour * [BEHAVIOUR_COUNT];
 	for (int i = 0; i < BEHAVIOUR_COUNT; i++)
 	{
 		behaviourStates[i] = nullptr;
@@ -16,6 +16,12 @@ NonPlayableCharacter::NonPlayableCharacter()
 NonPlayableCharacter::NonPlayableCharacter(Behaviour** behaviours)
 {
 	this->behaviourStates = behaviours;
+}
+
+NonPlayableCharacter::NonPlayableCharacter(Behaviour** behaviours, Point position)
+{
+	this->behaviourStates = behaviours;
+	this->location = position;
 }
 
 NonPlayableCharacter::~NonPlayableCharacter()
@@ -33,9 +39,14 @@ void NonPlayableCharacter::FirstUpdate()
 
 int NonPlayableCharacter::Update()
 {
-	for (int i = 0; i < BEHAVIOUR_COUNT; i++)
+	//for (int i = 0; i < BEHAVIOUR_COUNT; i++)
+	//{
+	//	behaviourStates[i]->Update(this);
+	//}
+	bool vision = behaviourStates[0]->Update(this);
+	if (vision)
 	{
-		behaviourStates[i]->Update(this);
+		updateDelay = behaviourStates[1]->Update(this);
 	}
 	return updateDelay;
 }

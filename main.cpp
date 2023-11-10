@@ -32,7 +32,7 @@ int main()
 		system("cls");
 		while (!exit)
 		{
-			exit = engine->DebugFrame();
+			exit = engine->GameFrame();
 			Sleep(100);
 		}
 	}

@@ -33,53 +33,76 @@ void Engine::PrepareGame()
 	map->GenerateFullMap();
 	map->GenerateGameObjects();
 	// map->DisplayFullMap();
+	// 
 	// TODO: move every gameobject into an array
 	gameObjectsCount = gameObjectsList->Count();
-	isUpdatingGameObject = new bool[gameObjectsCount];
 	gameObjects = new GameObject * [gameObjectsCount];
+	updateDelay = new int[gameObjectsCount];
 	for (int i = 0; i < gameObjectsCount; i++)
 	{
 		gameObjectsList->SeekToIndex(i);
 		gameObjects[i] = gameObjectsList->currentElement->data;
-		isUpdatingGameObject[i] = false;
+		updateDelay[i] = 0;
 	}
 	gameObjectsList->Empty();
 }
 
 bool Engine::GameFrame()
 {
-	for (int i = 0; i < updateList->Count(); i++)
+	KeyInput::Update(); // First and most important
+	mainCharacter->Update();
+	for (int i = 0; i < EXIT_COUNT; i++)
 	{
-		updateDelayList->SeekToIndex(i);
-		updateList->SeekToIndex(i);
-		if (updateDelayList->currentElement->data <= 0)
-		{
-			updateDelayList->currentElement->data = updateList->currentElement->data->Update();
-		}
-		else
-		{
-			--updateDelayList->currentElement->data;
-		}
+		exits[i]->Update();
 	}
 	for (int i = 0; i < gameObjectsCount; i++)
 	{
 		if (Distance(mainCharacter->location, gameObjects[i]->location) <= UPDATE_DISTANCE)
 		{
-			updateList->PushLast(gameObjects[i]);
-			updateDelayList->PushLast(0);
-			isUpdatingGameObject[i] = true;
-		}
-		else if (isUpdatingGameObject[i])
-		{
-			int index = updateList->IndexOf(gameObjects[i]);
-			updateList->RemoveAt(index);
-			updateDelayList->RemoveAt(index);
-			updateList->SeekToIndex(0);
-			isUpdatingGameObject[i] = false;
+			if (updateDelay[i] <= 0)
+			{
+				updateDelay[i] = gameObjects[i]->Update();
+			}
+			else
+			{
+				updateDelay[i]--;
+			}
 		}
 	}
+	rendererPtr->DebugDisplay();
+	//for (int i = 0; i < updateList->Count(); i++)
+	//{
+	//	updateDelayList->SeekToIndex(i);
+	//	updateList->SeekToIndex(i);
+	//	if (updateDelayList->currentElement->data <= 0)
+	//	{
+	//		updateDelayList->currentElement->data = updateList->currentElement->data->Update();
+	//	}
+	//	else
+	//	{
+	//		--updateDelayList->currentElement->data;
+	//	}
+	//}
+	//for (int i = 0; i < gameObjectsCount; i++)
+	//{
+	//	if (Distance(mainCharacter->location, gameObjects[i]->location) <= UPDATE_DISTANCE)
+	//	{
+	//		updateList->PushLast(gameObjects[i]);
+	//		updateDelayList->PushLast(0);
+	//		isUpdatingGameObject[i] = true;
+	//	}
+	//	else if (isUpdatingGameObject[i])
+	//	{
+	//		int index = updateList->IndexOf(gameObjects[i]);
+	//		updateList->RemoveAt(index);
+	//		updateDelayList->RemoveAt(index);
+	//		updateList->SeekToIndex(0);
+	//		isUpdatingGameObject[i] = false;
+	//	}
+	//}
 	// rendererPtr.Dispaly(); // TODO
-	return gameEnds;
+
+	return CheckExit();
 }
 
 bool Engine::DebugFrame()
@@ -127,10 +150,10 @@ double Engine::Distance(Point p1, Point p2)
 	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
 
-void Engine::WinGame()
+void Engine::EndGame(bool win)
 {
 	gameEnds = true;
-	gameWon = true;
+	gameWon = win;
 }
 
 bool Engine::Frame()
@@ -180,16 +203,13 @@ Engine::~Engine()
 	{
 		delete gameObjects[i];
 	}
-	delete[] isUpdatingGameObject;
+	delete[] updateDelay;
 	delete[] gameObjects;
 	triggerList->Empty(true);
-	updateList->Empty(); // Subset of gameObjects
 	gameObjectsList->Empty(true);
 	deleteList->Empty(true);
 
 	delete triggerList;
-	delete updateList;
-	delete updateDelayList;
 	delete gameObjectsList;
 	delete map;
 	delete keyReader;
@@ -209,8 +229,6 @@ void Engine::Init()
 	map = new Map(this);
 	keyReader = KeyInput::GetInstance();
 	triggerList = new DLinkedList<ITriggerable*>();
-	updateList = new DLinkedList<IUpdateable*>();
-	updateDelayList = new DLinkedList<int>();
 	gameObjectsList = new DLinkedList<GameObject*>();
 	rendererPtr = Renderer::GetInstance();
 	Renderer::engine = this;

@@ -27,7 +27,7 @@ int Exit::Update()
 	float distance = Engine::Distance(engine->mainCharacter->location, this->location);
 	if (distance <= WIN_DISTANCE)
 	{
-		engine->WinGame();
+		engine->EndGame(true);
 	}
 	return 0;
 }

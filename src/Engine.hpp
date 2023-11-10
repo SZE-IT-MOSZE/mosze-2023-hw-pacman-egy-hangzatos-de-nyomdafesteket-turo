@@ -85,7 +85,7 @@ public:
 
 	static double Distance(Point p1, Point p2);
 
-	void WinGame();
+	void EndGame(bool win);
 
 	void AddGameObject(GameObject* what);
 
@@ -113,13 +113,9 @@ private:
 	//ITriggerable** toTrigger;
 	//int toTriggerCount; // TODO: Decide
 
-	DLinkedList<IUpdateable*>* updateList; // updates only the objects within the next rooms
-
-	DLinkedList<int>* updateDelayList; // During generation
-
 	DLinkedList<GameObject*>* gameObjectsList; // During generation
 	GameObject** gameObjects;
-	bool* isUpdatingGameObject;
+	int* updateDelay;
 	int gameObjectsCount;
 
 	DLinkedList<GameObject*>* deleteList; // Delete items at the end of the frame, before Clock
