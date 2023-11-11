@@ -5,22 +5,26 @@
 
 MainCharacter::MainCharacter() : GameObject()
 {
-
+	Init();
 }
 
 MainCharacter::MainCharacter(Engine* e) : GameObject(e)
 {
-	
+	Init();
 }
 
 MainCharacter::MainCharacter(Engine* e, Point position) : GameObject(e, position)
 {
-
+	Init();
 }
 
 MainCharacter::~MainCharacter()
 {
-	
+	for (int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		delete inventory[i];
+	}
+	delete[] inventory;
 }
 
 void MainCharacter::FirstUpdate()
@@ -42,6 +46,15 @@ int MainCharacter::Update()
 
 void MainCharacter::LastUpdate()
 {
+}
+
+void MainCharacter::Init()
+{
+	inventory = new GameItem * [INVENTORY_SIZE];
+	for (int i = 0; i < INVENTORY_SIZE; i++)
+	{
+		inventory[i] = nullptr;
+	}
 }
 
 

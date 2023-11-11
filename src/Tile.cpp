@@ -59,6 +59,18 @@ char Tile::GetIcon()
 	return this->icon;
 }
 
+GameObject* Tile::GetContent()
+{
+	return content;
+}
+
+void Tile::SetContent(GameObject* what)
+{
+	passable = (what == nullptr);
+	content = what;
+}
+
+
 void Tile::Init()
 {
 	content = nullptr;

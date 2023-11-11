@@ -16,8 +16,8 @@ public:
 	void FirstUpdate() override;
 	int Update() override;
 	void LastUpdate() override;
-private:
-
+protected:
+	virtual void Init() override;
 };
 
 

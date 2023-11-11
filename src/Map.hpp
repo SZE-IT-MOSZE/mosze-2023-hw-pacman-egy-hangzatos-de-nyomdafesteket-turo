@@ -6,8 +6,8 @@
 #include "Engine.hpp"
 
 #define CLUSTER_SIZE 5
-#define ROOM_WIDTH 40
-#define ROOM_HEIGHT 22
+#define ROOM_WIDTH 50
+#define ROOM_HEIGHT 20
 #define DOOR_WIDTH 2
 #define EXIT_COUNT 5
 #define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */

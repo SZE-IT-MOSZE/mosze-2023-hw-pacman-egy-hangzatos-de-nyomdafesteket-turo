@@ -28,9 +28,11 @@ public:
 
 	char GetIcon();
 
-	GameObject* content;
+	GameObject* GetContent();
+	void SetContent(GameObject* what);
 
 private:
+	GameObject* content;
 	void Init();
 	char icon;
 	bool passable;

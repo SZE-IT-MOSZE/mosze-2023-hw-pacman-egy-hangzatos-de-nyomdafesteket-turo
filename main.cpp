@@ -27,7 +27,8 @@ int main()
 	else if (option == (int)Engine::MenuOptions::PlayRandom)
 	{
 		engine->PrepareGame();
-		Renderer::GetInstance()->DebugDisplay();
+		//Renderer::GetInstance()->DebugDisplay();
+
 		bool exit = false;
 		system("cls");
 		while (!exit)

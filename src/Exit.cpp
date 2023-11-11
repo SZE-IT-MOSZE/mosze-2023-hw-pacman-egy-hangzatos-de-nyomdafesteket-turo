@@ -36,3 +36,7 @@ void Exit::LastUpdate()
 {
 
 }
+
+void Exit::Init()
+{
+}

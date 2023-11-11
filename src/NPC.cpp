@@ -60,5 +60,9 @@ void NonPlayableCharacter::SetUpdateDelay(int delay)
 	this->updateDelay = delay;
 }
 
+void NonPlayableCharacter::Init()
+{
+}
+
 
 #endif // !NPC_BASE

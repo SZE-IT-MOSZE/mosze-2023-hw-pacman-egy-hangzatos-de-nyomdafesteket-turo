@@ -38,6 +38,7 @@ public:
 	Point location; // Location of this object
 protected:
 	Engine* engine; // QOL pointer to reduce acess time
+	virtual void Init() = 0;
 };
 
 

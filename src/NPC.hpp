@@ -25,6 +25,8 @@ public:
 private:
 	int updateDelay;
 	Behaviour** behaviourStates;
+protected:
+	virtual void Init() override;
 };
 
 

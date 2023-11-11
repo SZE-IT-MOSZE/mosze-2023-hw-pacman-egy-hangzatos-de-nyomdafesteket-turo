@@ -137,6 +137,8 @@
     <ClCompile Include="src\DDelegateAction.cpp" />
     <ClCompile Include="src\DLinkedList.cpp" />
     <ClCompile Include="src\DLinkedListNode.cpp" />
+    <ClCompile Include="src\GameItem.cpp" />
+    <ClCompile Include="src\LIDAR.cpp" />
     <ClCompile Include="src\NPC.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Exit.cpp" />
@@ -158,6 +160,8 @@
     <ClInclude Include="src\DDelegateAction.hpp" />
     <ClInclude Include="src\DLinkedList.hpp" />
     <ClInclude Include="src\DLinkedListNode.hpp" />
+    <ClInclude Include="src\GameItem.hpp" />
+    <ClInclude Include="src\LIDAR.hpp" />
     <ClInclude Include="src\NPC.hpp" />
     <ClInclude Include="src\Engine.hpp" />
     <ClInclude Include="src\Exit.hpp" />

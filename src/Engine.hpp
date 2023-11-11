@@ -19,6 +19,8 @@ class Engine;
 #include "BehaviourTemplates.hpp"
 #include "Map.hpp"
 #include "Exit.hpp"
+#include "GameItem.hpp"
+#include "LIDAR.hpp"
 #include <iostream>
 
 #define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
@@ -84,6 +86,8 @@ public:
 	bool MoveObject(GameObject* what, Point target);
 
 	static double Distance(Point p1, Point p2);
+
+	static double LERP(int x, int y, double ratio);
 
 	void EndGame(bool win);
 

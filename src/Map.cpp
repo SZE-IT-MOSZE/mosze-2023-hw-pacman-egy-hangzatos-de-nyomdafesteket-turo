@@ -274,8 +274,9 @@ void Map::GenerateGameObjects()
 
 	engine->mainCharacter = new MainCharacter(engine, Point{ x, y });
 	Renderer::GetInstance()->mainCharacter = engine->mainCharacter;
-
-	fullMap[x][y]->content = engine->mainCharacter; // TODO: Make automatic 
+	engine->mainCharacter->inventory[0] = new LIDAR(engine->mainCharacter, this);
+	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[0]));
+	fullMap[x][y]->SetContent(engine->mainCharacter); // TODO: Make automatic 
 
 	// Select exit position
 	for (int i = 0; i < EXIT_COUNT; i++)
@@ -291,9 +292,9 @@ void Map::GenerateGameObjects()
 		{
 			offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
 			offsetY = 1 + rand() % (ROOM_WIDTH - 2);
-		} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
+		} while (fullMap[x + offsetX][y + offsetY]->GetContent() != nullptr);
 		engine->exits[i] = new Exit(engine, Point{ x * ROOM_HEIGHT + offsetX , y * ROOM_WIDTH + offsetY });
-		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->content = engine->exits[i];
+		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->SetContent(engine->exits[i]);
 	}
 
 	// Place NPCs
@@ -319,7 +320,7 @@ void Map::GenerateGameObjects()
 						{
 							offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
 							offsetY = 1 + rand() % (ROOM_WIDTH - 2);
-						} while (fullMap[x + offsetX][y + offsetY]->content != nullptr);
+						} while (fullMap[x + offsetX][y + offsetY]->GetContent() != nullptr);
 
 						Behaviour** tmp = new Behaviour * [BEHAVIOUR_COUNT];
 

@@ -31,6 +31,7 @@ void Engine::PrepareGame()
 
 	map->GenerateBaseMap(width, height, seed);
 	map->GenerateFullMap();
+	map->DisplayMap();
 	map->GenerateGameObjects();
 	// map->DisplayFullMap();
 	// 
@@ -69,7 +70,11 @@ bool Engine::GameFrame()
 			}
 		}
 	}
-	rendererPtr->DebugDisplay();
+	//rendererPtr->DebugDisplay();
+	rendererPtr->Display();
+
+	// rendererPtr.Dispaly(); // TODO
+
 	//for (int i = 0; i < updateList->Count(); i++)
 	//{
 	//	updateDelayList->SeekToIndex(i);
@@ -100,7 +105,6 @@ bool Engine::GameFrame()
 	//		isUpdatingGameObject[i] = false;
 	//	}
 	//}
-	// rendererPtr.Dispaly(); // TODO
 
 	return CheckExit();
 }
@@ -135,11 +139,13 @@ Map* Engine::GetMap()
 bool Engine::MoveObject(GameObject* what, Point target)
 {
 	// Check if space is available
-	if (map->fullMap[target.x][target.y]->content == nullptr && map->fullMap[target.x][target.y]->Passable())
+	if (/*map->fullMap[target.x][target.y]->GetContent() == nullptr &&*/ map->fullMap[target.x][target.y]->Passable())
 	{
-		map->fullMap[what->location.x][what->location.y]->content = nullptr;
+		map->fullMap[what->location.x][what->location.y]->SetContent(nullptr);
+		//map->fullMap[what->location.x][what->location.y]->content = nullptr;
 		what->location = target;
-		map->fullMap[what->location.x][what->location.y]->content = what;
+		//map->fullMap[what->location.x][what->location.y]->content = what;
+		map->fullMap[what->location.x][what->location.y]->SetContent(what);
 		return true;
 	}
 	return false;
@@ -148,6 +154,18 @@ bool Engine::MoveObject(GameObject* what, Point target)
 double Engine::Distance(Point p1, Point p2)
 {
 	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
+double Engine::LERP(int x, int y, double ratio)
+{
+	if (x <= y)
+	{		
+		return 1.0 * x * (1.0 - ratio) + (y * ratio);
+	}
+	else
+	{
+		return LERP(y, x, ratio);
+	}
 }
 
 void Engine::EndGame(bool win)
@@ -163,7 +181,7 @@ bool Engine::Frame()
 
 void Engine::AddGameObject(GameObject* what)
 {
-	map->fullMap[what->location.x][what->location.y]->content = what;
+	map->fullMap[what->location.x][what->location.y]->SetContent(what);
 	this->gameObjectsList->PushLast(what);
 }
 

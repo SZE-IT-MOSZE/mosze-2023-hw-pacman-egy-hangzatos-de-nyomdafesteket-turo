@@ -2,7 +2,10 @@
 #define MAIN_CHARACTER_H
 
 #include "GameObject.hpp"
+#include "GameItem.hpp"
 #include "Engine.hpp"
+
+#define INVENTORY_SIZE 12
 
 class MainCharacter : public GameObject
 {
@@ -15,6 +18,9 @@ public:
 	void FirstUpdate() override;
 	int Update() override;
 	void LastUpdate() override;
+	GameItem** inventory;
+protected:
+	virtual void Init() override;
 };
 
 #endif
