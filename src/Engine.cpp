@@ -16,8 +16,8 @@ Engine::Engine()
 void Engine::PrepareGame()
 {
 	int width, height, seed;
-	width = 20;
-	height = 7;
+	width = 7;
+	height = 15;
 	seed = 1;
 
 	std::cout << "Map width (recommended: " << width << "): ";
@@ -26,12 +26,12 @@ void Engine::PrepareGame()
 	std::cout << "Map height (recommended: " << height << "): ";
 	std::cin >> height;
 
-	std::cout << "Map seed (recommended: " << seed << "): ";
+	std::cout << "Map seed: ";
 	std::cin >> seed;
 
 	map->GenerateBaseMap(width, height, seed);
 	map->GenerateFullMap();
-	map->DisplayMap();
+	// map->DisplayMap();
 	map->GenerateGameObjects();
 	// map->DisplayFullMap();
 	// 
@@ -251,11 +251,11 @@ int Engine::MainMenu()
 		SAY "Invalid option. Again!" << ENDL;
 		std::cin >> ret;
 	}
-	//CONSOLE_CURSOR_INFO cursorInfo;
+	CONSOLE_CURSOR_INFO cursorInfo;
 
-	//GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
-	//cursorInfo.bVisible = false;
-	//SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+	cursorInfo.bVisible = false;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 	return ret;
 }
 

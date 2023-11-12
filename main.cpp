@@ -18,16 +18,10 @@ int main()
 {
 	Engine* engine = Engine::GetInstance();
 	int option = engine->MainMenu();
-	if (option == (int)Engine::MenuOptions::Quit)
-	{
-		delete Engine::GetInstance();
-		std::cout << _CrtDumpMemoryLeaks();
-		return 0;
-	}
-	else if (option == (int)Engine::MenuOptions::PlayRandom)
+	if (option == (int)Engine::MenuOptions::PlayRandom)
 	{
 		engine->PrepareGame();
-		std::cout << "Skip loading screen? [y/n]" << std::endl;
+		std::cout << "Skip intro screen? [y/n]" << std::endl;
 		char tmp;
 		std::cin >> tmp;
 		if (tmp == 'n' || tmp == 'N')
@@ -55,6 +49,7 @@ int main()
 		std::cout << std::endl;
 	}
 	delete Engine::GetInstance();
-	std::cout << _CrtDumpMemoryLeaks();
+	std::cout << _CrtDumpMemoryLeaks() << std::endl;
+	system("pause");
 	return 0;
 }
