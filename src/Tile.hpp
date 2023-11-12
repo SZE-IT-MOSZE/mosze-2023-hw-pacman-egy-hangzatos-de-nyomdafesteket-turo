@@ -4,12 +4,13 @@
 #include "DDelegate.hpp"
 #include "Engine.hpp"
 
+
 class Tile
 {
 
 public:
 
-	enum TileType { Other = 0, Wall = 1, Floor = 2};
+	enum TileType { Wall = 0, Floor = 1};
 
 	Tile();
 
@@ -19,7 +20,8 @@ public:
 
 	~Tile();
 
-	bool Passable();
+	bool IsPassable();
+	void SetPassable(bool value);
 
 	TileType GetTileType();
 
@@ -27,8 +29,11 @@ public:
 
 	char GetIcon();
 
+	GameObject* GetContent();
+	void SetContent(GameObject* what);
 
 private:
+	GameObject* content;
 	void Init();
 	char icon;
 	bool passable;

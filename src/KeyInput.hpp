@@ -159,7 +159,7 @@ public:
 	// static void Delete(); // wat
 
 	/// <summary>
-	/// Get the active keys in the frame
+	/// Get the active keys in the frame. 0: Arrows. 1: Numbers. 2: Letters. 3: NumpadNumbers. 4: Function buttons. 5: Utilities
 	/// </summary>
 	/// <returns>The pointer to the active keys</returns>
 	static KeyName* GetActiveKeys();

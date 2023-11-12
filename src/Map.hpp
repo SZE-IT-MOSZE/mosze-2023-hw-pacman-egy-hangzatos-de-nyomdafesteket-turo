@@ -1,14 +1,17 @@
 #ifndef MAP_H
 #define MAP_H
 
-
+#include "Renderer.hpp"
 #include "Tile.hpp"
 #include "Engine.hpp"
 
 #define CLUSTER_SIZE 5
-#define ROOM_WIDTH 10
-#define ROOM_HEIGHT 6
+#define ROOM_WIDTH RENDER_WIDTH
+#define ROOM_HEIGHT RENDER_HEIGHT
 #define DOOR_WIDTH 2
+#define EXIT_COUNT 5
+#define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */
+#define NPC_MULTIPLIER_PER_ROOM 10
 
 class Map
 {
@@ -26,7 +29,10 @@ public:
 	/// </summary>
 	void GenerateFullMap();
 
+	void GenerateGameObjects();
+
 	Map();
+	Map(Engine* e);
 	~Map();
 
 
@@ -67,13 +73,14 @@ public:
 
 
 
-private:
 	bool** baseMap;
 	int width, height;
 
 	bool** pathfindHelper;
 	Tile*** fullMap;
-	int fullWidth, fullHeight;
+
+private:
+	Engine* engine;
 
 	/// <summary>
 	/// Generates a cluster in the baseMap at a specified coordinate

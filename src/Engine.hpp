@@ -12,10 +12,21 @@ class Engine;
 #include "Triggerable.hpp"
 #include "RenderImage.hpp"
 #include "Renderer.hpp"
-#include "Map.hpp"
 #include "GameObject.hpp"
+#include "NPC.hpp"
+#include "MainCharacter.hpp"
+#include "Behaviour.hpp"
+#include "BehaviourTemplates.hpp"
+#include "Map.hpp"
+#include "Exit.hpp"
+#include "GameItem.hpp"
+#include "LIDAR.hpp"
+#include "SensorBatch.hpp"
+#include "LoadingScreen.cpp"
 #include <iostream>
 
+#define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
+#define LOS_CHECK_PRECISION 0.1
 
 
 class Engine
@@ -59,7 +70,9 @@ public:
 	/// <summary>
 	/// The game
 	/// </summary>
-	void StartGame();
+	bool GameFrame();
+
+	bool DebugFrame();
 
 	/// <summary>
 	/// Destroys the object from the game.
@@ -69,6 +82,27 @@ public:
 
 	Map* GetMap();
 
+	MainCharacter* mainCharacter;
+
+	Exit** exits;
+
+	bool MoveObject(GameObject* what, Point target);
+
+	static double Distance(Point p1, Point p2);
+
+	static double LERP(int x, int y, double ratio);
+
+	void EndGame(bool win);
+
+	void AddGameObject(GameObject* what);
+
+	GameObject** GetGameObjects() { return gameObjects; }
+
+	int GetGameObjectCount() { return gameObjectsCount; }
+
+	static bool LineOfSight(Point p1, Point p2);
+
+	bool IsGameWon() { return gameWon; }
 private:
 	static Engine* enginePtr;
 
@@ -80,7 +114,8 @@ private:
 	/// <summary>
 	/// A frame of the game. Every logic goes here
 	/// </summary>
-	void Frame();
+	/// <returns>If the game has ended</returns>
+	bool Frame();
 
 	Engine();
 
@@ -89,17 +124,22 @@ private:
 	KeyInput* keyReader;
 
 	DLinkedList<ITriggerable*>* triggerList;
+	//ITriggerable** toTrigger;
+	//int toTriggerCount; // TODO: Decide
 
-	DLinkedList<IUpdateable*>* updateList;
-
-	DLinkedList<int>* updateDelay;
-
-	DLinkedList<GameObject*>* gameObjects;
+	DLinkedList<GameObject*>* gameObjectsList; // During generation
+	GameObject** gameObjects;
+	int* updateDelay;
+	int gameObjectsCount;
 
 	DLinkedList<GameObject*>* deleteList; // Delete items at the end of the frame, before Clock
 
 	Renderer* rendererPtr;
 
+	bool CheckExit();
+
+	bool gameEnds;
+	bool gameWon;
 };
 
 Engine* Engine::enginePtr = nullptr;
