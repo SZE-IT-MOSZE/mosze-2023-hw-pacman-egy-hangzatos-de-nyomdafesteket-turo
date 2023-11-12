@@ -23,9 +23,14 @@ Tile::~Tile()
 	// TODO
 }
 
-bool Tile::Passable()
+bool Tile::IsPassable()
 {
 	return this->passable;
+}
+
+void Tile::SetPassable(bool value)
+{
+	this->passable = value;
 }
 
 Tile::TileType Tile::GetTileType()

@@ -20,7 +20,8 @@ public:
 
 	~Tile();
 
-	bool Passable();
+	bool IsPassable();
+	void SetPassable(bool value);
 
 	TileType GetTileType();
 

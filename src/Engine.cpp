@@ -139,7 +139,7 @@ Map* Engine::GetMap()
 bool Engine::MoveObject(GameObject* what, Point target)
 {
 	// Check if space is available
-	if (/*map->fullMap[target.x][target.y]->GetContent() == nullptr &&*/ map->fullMap[target.x][target.y]->Passable())
+	if (/*map->fullMap[target.x][target.y]->GetContent() == nullptr &&*/ map->fullMap[target.x][target.y]->IsPassable())
 	{
 		map->fullMap[what->location.x][what->location.y]->SetContent(nullptr);
 		//map->fullMap[what->location.x][what->location.y]->content = nullptr;
@@ -185,6 +185,43 @@ void Engine::AddGameObject(GameObject* what)
 	this->gameObjectsList->PushLast(what);
 }
 
+bool Engine::LineOfSight(Point p1, Point p2)
+{
+	bool LOS = false;
+
+	double length = Engine::Distance(p1, p2);
+
+	// Normalized vector from locX, loxY to i, j
+	double dirX = (p1.x - p2.x) / (length * 1.0);
+	double dirY = (p1.y - p2.y) / (length * 1.0);
+
+	// Currently checked tile
+	double currentX, currentY;
+
+	for (double k = 0; k < length /*&& visibleTile[i][j] == false*/; k += LOS_CHECK_PRECISION)
+	{
+		currentX = p2.x + k * dirX;
+		currentY = p2.y + k * dirY;
+
+		int x = round(currentX);
+		int y = round(currentY);
+
+		if (Point{ x, y } == p2)
+		{
+			continue;
+		}
+		// Check if there is something on the current tile
+		LOS = Engine::GetInstance()->GetMap()->fullMap[x][y]->IsPassable();
+
+		if (LOS == false)
+		{
+			break; // There is something, we can't look behind it
+		}
+	}
+
+	return LOS;
+}
+
 bool Engine::CheckExit()
 {
 	return gameEnds || keyReader->GetActiveKeys()[5] == KeyInput::KeyName::Esc;
@@ -192,6 +229,9 @@ bool Engine::CheckExit()
 
 int Engine::MainMenu()
 {
+
+
+	SAY "Game is recommended to be played with character size of 20, full screen" << ENDL;
 	SAY "Robo survivor" << ENDL;
 	SAY "Options:" << ENDL;
 	/*
@@ -211,7 +251,11 @@ int Engine::MainMenu()
 		SAY "Invalid option. Again!" << ENDL;
 		std::cin >> ret;
 	}
+	//CONSOLE_CURSOR_INFO cursorInfo;
 
+	//GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+	//cursorInfo.bVisible = false;
+	//SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 	return ret;
 }
 

@@ -126,15 +126,15 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Gas sensor: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH / 3);
-	SAY "\tAir composition:" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 5);
-	SAY "\t\tNitrogen: 0.65" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 10);
-	SAY "\t\tOxygen: 0.11" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 10);
-	SAY "\t\tCarbon Dioxide: 0.2" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 10);
-	SAY "\t\tCalcites: 0.04" << ENDL;
+	//SAY "\tAir composition:" << ENDL;
+	//Sleep(LINE_SLEEPLENGTH / 5);
+	//SAY "\t\tNitrogen: 0.65" << ENDL;
+	//Sleep(LINE_SLEEPLENGTH / 10);
+	//SAY "\t\tOxygen: 0.11" << ENDL;
+	//Sleep(LINE_SLEEPLENGTH / 10);
+	//SAY "\t\tCarbon Dioxide: 0.2" << ENDL;
+	//Sleep(LINE_SLEEPLENGTH / 10);
+	//SAY "\t\tCalcites: 0.04" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 2);
 	SAY "LIDAR: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
@@ -166,14 +166,16 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "\tAutomation: NOT POSSIBLE" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Switching to manual drive";
+	SAY "Systems operational. Communication stable. Ping average: 120 ms. Jitter MAX: 30 ms. Press return when ready to begin the mission!";
+	SAY ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	for (int j = 0; j < 5; j++)
+	SAY "New objective: Bring the robot UP to the TOP of the mine. There are several cracks to the surface. Find them! Switching to manual drive";
+	Sleep(LINE_SLEEPLENGTH);
+	for (int j = 0; j < 10; j++)
 	{
-		Spinner(20);
+		Spinner(5);
 		SAY '.';
 	}
-	SAY ENDL;
 }
 
 static void Spinner(int rotCount)

@@ -206,7 +206,7 @@ void Map::GenerateGameObjects()
 	bool forcedPlace = false;
 
 	// Generate random walls
-	percentage = 0.07;
+	percentage = 0.02;
 	int changesMade = 0;
 	int x, y;
 	while (changesMade < percentage * totalSize)
@@ -273,9 +273,12 @@ void Map::GenerateGameObjects()
 	y = 1 + y * ROOM_WIDTH + rand() % (ROOM_WIDTH - 2);
 
 	engine->mainCharacter = new MainCharacter(engine, Point{ x, y });
+
 	Renderer::GetInstance()->mainCharacter = engine->mainCharacter;
 	engine->mainCharacter->inventory[0] = new LIDAR(engine->mainCharacter, this);
+	engine->mainCharacter->inventory[1] = new SensorBatch(engine->mainCharacter, this);
 	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[0]));
+	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[1]));
 	fullMap[x][y]->SetContent(engine->mainCharacter); // TODO: Make automatic 
 
 	// Select exit position
@@ -295,11 +298,12 @@ void Map::GenerateGameObjects()
 		} while (fullMap[x + offsetX][y + offsetY]->GetContent() != nullptr);
 		engine->exits[i] = new Exit(engine, Point{ x * ROOM_HEIGHT + offsetX , y * ROOM_WIDTH + offsetY });
 		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->SetContent(engine->exits[i]);
+		fullMap[x * ROOM_HEIGHT + offsetX][y * ROOM_WIDTH + offsetY]->SetPassable(true);
 	}
 
 	// Place NPCs
 	int behaviourCount = 4;
-	Behaviour** behaviourTemplates = new Behaviour * [behaviourCount]; // TODO: rework
+	Behaviour** behaviourTemplates = new Behaviour * [behaviourCount]; // TODO: rework, expand
 	behaviourTemplates[0] = new BehaviourVision(MINVISION);
 	behaviourTemplates[1] = new BehaviourVision(MAXVISION);
 	behaviourTemplates[2] = new BehaviourMovement(MAXDLEAY);
@@ -341,17 +345,12 @@ void Map::GenerateGameObjects()
 	}
 	delete[] behaviourTemplates;
 
-
-
-
-
-
 	// After objects are placed
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < width * ROOM_WIDTH; j++)
 		{
-			pathfindHelper[i][j] = fullMap[i][j]->Passable();
+			pathfindHelper[i][j] = fullMap[i][j]->IsPassable();
 		}
 	}
 

@@ -3,8 +3,6 @@
 
 #include "Engine.hpp"
 
-#define LIDAR_PRECISION 0.1
-
 class LIDAR :  public IRenderImage, public GameItem
 {
 public:
@@ -14,11 +12,10 @@ public:
 
 	bool Condition() override;
 	void Trigger() override;
-
+	// static bool LineOfSight(Point p1, Point p2);
 private:
 	char** renderImage;
 	bool** visibleTile;
-	int range;
 };
 
 

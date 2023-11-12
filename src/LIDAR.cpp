@@ -19,8 +19,6 @@ LIDAR::LIDAR(GameObject* container, Map* map) : GameItem(container, map)
 	{
 		visibleTile[i] = new bool[ROOM_WIDTH];
 	}
-	range = round(sqrt(ROOM_HEIGHT * ROOM_HEIGHT + ROOM_WIDTH * ROOM_WIDTH)); // The range of the lidar
-	// pointsToCheck = new Point[range];
 }
 
 LIDAR::~LIDAR()
@@ -39,24 +37,12 @@ LIDAR::~LIDAR()
 
 char** LIDAR::ProduceImage()
 {
-	int roomX = container->location.x - container->location.x % ROOM_HEIGHT;
-	int roomY = container->location.y - container->location.y % ROOM_WIDTH;
-
-	//int offsetX = container->location.x % ROOM_HEIGHT;
-	//int offsetY = container->location.y % ROOM_WIDTH;
-
 	int locX = container->location.x;
 	int locY = container->location.y;
 
-	//bool** checked = new bool*[ROOM_HEIGHT];
-	//for (int i = 0; i < ROOM_HEIGHT; i++)
-	//{
-	//	checked[i] = new bool[ROOM_WIDTH];
-	//	for (int j = 0; j < ROOM_WIDTH; j++)
-	//	{
-	//		checked[i][j] = false;
-	//	}
-	//}
+	int roomX = locX - locX % ROOM_HEIGHT;
+	int roomY = locY - locY % ROOM_WIDTH;
+
 	// Raycasting
 
 	for (int i = 0; i < ROOM_HEIGHT; i++)
@@ -64,33 +50,14 @@ char** LIDAR::ProduceImage()
 		for (int j = 0; j < ROOM_WIDTH; j++)
 		{
 			visibleTile[i][j] = false;
-			int length = Engine::Distance(Point{ roomX + i, roomY + j }, container->location);
-			double dirX = (i - container->location.x % ROOM_HEIGHT) / (length * 1.0);
-			double dirY = (j - container->location.y % ROOM_WIDTH) / (length * 1.0);
-			double currentX, currentY;
-			// for (double k = length - 1; k >= 0 && visibleTile[i][j] == false; k--)
-			for (double k = 0; k < length; k+= LIDAR_PRECISION)
-			{
-				currentX = container->location.x + k * dirX;
-				currentY = container->location.y + k * dirY;
 
-				int x = round(currentX);
-				int y = round(currentY);
-				if (Point{ x, y } == container->location)
-				{
-					continue;
-				}
-				bool debug2 = map->fullMap[x][y]->Passable();
-				visibleTile[x % ROOM_HEIGHT][y % ROOM_WIDTH] = debug2;
-				if (visibleTile[x % ROOM_HEIGHT][y % ROOM_WIDTH] == false)
-				{
-					break;
-				}
-			}
+			visibleTile[i][j] = Engine::LineOfSight(Point{ roomX + i, roomY + j }, container->location);
 
 		}
 	}
 
+	// Room width and room height might not match the render width and height
+	// This centers the produced image to the render panel
 	int offsetX = (RENDER_HEIGHT - ROOM_HEIGHT) / 2;
 	int offsetY = (RENDER_WIDTH - ROOM_WIDTH) / 2;
 
@@ -109,9 +76,13 @@ char** LIDAR::ProduceImage()
 			}
 		}
 	}
+	// To see where the player is
+	renderImage[offsetX + locX % ROOM_HEIGHT][offsetY + locY % ROOM_WIDTH] = 'P';
 
 	return renderImage;
 }
+
+
 
 bool LIDAR::Condition()
 {

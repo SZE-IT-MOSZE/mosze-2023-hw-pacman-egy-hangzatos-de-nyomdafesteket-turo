@@ -21,9 +21,12 @@ class Engine;
 #include "Exit.hpp"
 #include "GameItem.hpp"
 #include "LIDAR.hpp"
+#include "SensorBatch.hpp"
+#include "LoadingScreen.cpp"
 #include <iostream>
 
 #define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
+#define LOS_CHECK_PRECISION 0.1
 
 
 class Engine
@@ -93,6 +96,13 @@ public:
 
 	void AddGameObject(GameObject* what);
 
+	GameObject** GetGameObjects() { return gameObjects; }
+
+	int GetGameObjectCount() { return gameObjectsCount; }
+
+	static bool LineOfSight(Point p1, Point p2);
+
+	bool IsGameWon() { return gameWon; }
 private:
 	static Engine* enginePtr;
 
@@ -113,7 +123,7 @@ private:
 
 	KeyInput* keyReader;
 
-	DLinkedList<ITriggerable*>* triggerList; 
+	DLinkedList<ITriggerable*>* triggerList;
 	//ITriggerable** toTrigger;
 	//int toTriggerCount; // TODO: Decide
 

@@ -126,10 +126,10 @@ void Renderer::Display()
 void Renderer::DisplayLogicScreen(int index, int offsetX, int offsetY)
 {
 	char** tmp = (renderPanels[index])->ProduceImage();
-	for (int i = offsetX; i < offsetX + RENDER_HEIGHT; i++)
+	for (int i = 0; i < RENDER_HEIGHT; i++)
 	{
-		PositionCursor(Point{ i, offsetY});
-		for (int j = offsetY; j < offsetY + RENDER_WIDTH; j++)
+		PositionCursor(Point{ offsetY, offsetX + i});
+		for (int j = 0; j < RENDER_WIDTH; j++)
 		{
 			std::cout << tmp[i][j];
 		}
@@ -138,7 +138,7 @@ void Renderer::DisplayLogicScreen(int index, int offsetX, int offsetY)
 
 void Renderer::PositionCursor(Point location)
 {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ (short)location.y, (short)location.x });
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ (short)location.x, (short)location.y });
 }
 
 void Renderer::DisplayScreen(int index)
@@ -146,7 +146,7 @@ void Renderer::DisplayScreen(int index)
 	switch (index)
 	{
 	case TOP_LEFT: DisplayLogicScreen(index, 0, 0); break;
-	case TOP_RIGHT: DisplayLogicScreen(index, RENDER_WIDTH, 0); break;
+	case TOP_RIGHT: DisplayLogicScreen(index, 0, RENDER_WIDTH + 1); break;
 	case BOTTOM_LEFT: DisplayLogicScreen(index, 0, RENDER_HEIGHT); break;
 	case BOTTOM_Right: DisplayLogicScreen(index, RENDER_WIDTH, RENDER_HEIGHT); break;
 

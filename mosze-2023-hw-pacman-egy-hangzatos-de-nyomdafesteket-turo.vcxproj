@@ -149,6 +149,7 @@
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\SensorBatch.cpp" />
     <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="src\Map.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
     <ClInclude Include="src\RenderImage.hpp" />
+    <ClInclude Include="src\SensorBatch.hpp" />
     <ClInclude Include="src\Tile.hpp" />
     <ClInclude Include="src\Triggerable.hpp" />
     <ClInclude Include="src\Updateable.hpp" />

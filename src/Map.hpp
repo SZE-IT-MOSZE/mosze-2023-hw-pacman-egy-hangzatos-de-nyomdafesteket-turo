@@ -1,13 +1,13 @@
 #ifndef MAP_H
 #define MAP_H
 
-
+#include "Renderer.hpp"
 #include "Tile.hpp"
 #include "Engine.hpp"
 
 #define CLUSTER_SIZE 5
-#define ROOM_WIDTH 50
-#define ROOM_HEIGHT 20
+#define ROOM_WIDTH RENDER_WIDTH
+#define ROOM_HEIGHT RENDER_HEIGHT
 #define DOOR_WIDTH 2
 #define EXIT_COUNT 5
 #define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */

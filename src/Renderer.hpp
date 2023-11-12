@@ -7,11 +7,11 @@
 #define BOTTOM_LEFT 2
 #define BOTTOM_Right 3
 
-#define SCREEN_WIDTH 156
+#define SCREEN_WIDTH 154
 #define SCREEN_HEIGHT 40
 
-#define RENDER_WIDTH SCREEN_WIDTH / 2
-#define RENDER_HEIGHT SCREEN_HEIGHT / 2
+#define RENDER_WIDTH (SCREEN_WIDTH / 2)
+#define RENDER_HEIGHT (SCREEN_HEIGHT / 2)
 
 #include "MainCharacter.hpp"
 #include "Engine.hpp"
