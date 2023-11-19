@@ -212,8 +212,11 @@
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Seismograph.cpp" />
     <ClCompile Include="src\SensorBatch.cpp" />
     <ClCompile Include="src\Tile.cpp" />
+    <ClCompile Include="src\Trap.cpp" />
+    <ClCompile Include="src\Traps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -237,8 +240,11 @@
     <ClInclude Include="src\Map.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
     <ClInclude Include="src\RenderImage.hpp" />
+    <ClInclude Include="src\Seismograph.hpp" />
     <ClInclude Include="src\SensorBatch.hpp" />
     <ClInclude Include="src\Tile.hpp" />
+    <ClInclude Include="src\Trap.hpp" />
+    <ClInclude Include="src\Traps.hpp" />
     <ClInclude Include="src\Triggerable.hpp" />
     <ClInclude Include="src\Updateable.hpp" />
   </ItemGroup>

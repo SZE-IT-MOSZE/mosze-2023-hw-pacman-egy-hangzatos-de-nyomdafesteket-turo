@@ -17,7 +17,7 @@ public:
 	~Behaviour()
 	{
 	}
-	virtual int Update(GameObject* caller) = 0;
+	virtual void* Update(GameObject* caller) = 0;
 private:
 
 };

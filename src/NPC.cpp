@@ -43,10 +43,22 @@ int NonPlayableCharacter::Update()
 	//{
 	//	behaviourStates[i]->Update(this);
 	//}
-	bool vision = behaviourStates[0]->Update(this);
+	void* tmp = behaviourStates[0]->Update(this);
+
+	bool vision = *(bool*)tmp;
+	delete tmp;
 	if (vision)
 	{
-		updateDelay = behaviourStates[1]->Update(this);
+		tmp = behaviourStates[1]->Update(this);
+		if (tmp == nullptr)
+		{
+			updateDelay = 0;
+		}
+		else
+		{
+			updateDelay = *(int*)tmp;
+		}
+		delete tmp;
 	}
 	return updateDelay;
 }
@@ -62,6 +74,7 @@ void NonPlayableCharacter::SetUpdateDelay(int delay)
 
 void NonPlayableCharacter::Init()
 {
+	mainCharacter = engine->mainCharacter;
 }
 
 

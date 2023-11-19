@@ -3,6 +3,7 @@
 
 class Engine;
 
+#include "Clock.hpp"
 #include "KeyInput.hpp"
 #include "BStar.hpp"
 #include "DLinkedList.hpp"
@@ -23,6 +24,8 @@ class Engine;
 #include "LIDAR.hpp"
 #include "SensorBatch.hpp"
 #include "LoadingScreen.cpp"
+#include "Trap.hpp" // Why...
+#include "Seismograph.hpp"
 #include <iostream>
 
 #define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
@@ -103,6 +106,10 @@ public:
 	static bool LineOfSight(Point p1, Point p2);
 
 	bool IsGameWon() { return gameWon; }
+
+	Trap** traps;
+	int trapsCunt;
+
 private:
 	static Engine* enginePtr;
 

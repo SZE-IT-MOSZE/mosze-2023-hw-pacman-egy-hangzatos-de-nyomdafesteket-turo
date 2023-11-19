@@ -18,6 +18,10 @@ LIDAR::LIDAR(GameObject* container, Map* map) : GameItem(container, map)
 	for (int i = 0; i < ROOM_HEIGHT; i++)
 	{
 		visibleTile[i] = new bool[ROOM_WIDTH];
+		for (int j = 0; j < ROOM_WIDTH; j++)
+		{
+			visibleTile[i][j] = false;
+		}
 	}
 }
 
@@ -45,11 +49,12 @@ char** LIDAR::ProduceImage()
 
 	// Raycasting
 
+
 	for (int i = 0; i < ROOM_HEIGHT; i++)
 	{
 		for (int j = 0; j < ROOM_WIDTH; j++)
 		{
-			visibleTile[i][j] = false;
+			// visibleTile[i][j] = false;
 
 			visibleTile[i][j] = Engine::LineOfSight(Point{ roomX + i, roomY + j }, container->location);
 
@@ -82,7 +87,10 @@ char** LIDAR::ProduceImage()
 	return renderImage;
 }
 
-
+bool LIDAR::IsUpdateable()
+{
+	return true;
+}
 
 bool LIDAR::Condition()
 {

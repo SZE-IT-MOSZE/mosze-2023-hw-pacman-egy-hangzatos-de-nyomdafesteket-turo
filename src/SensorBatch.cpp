@@ -39,21 +39,30 @@ char** SensorBatch::ProduceImage()
 	if (lightSensorActive)
 	{
 		bool found = false;
-		double distance = INT_MAX;
+		// double distance = INT_MAX;
 		Exit** exits = Engine::GetInstance()->exits;
 		for (int i = 0; i < EXIT_COUNT; i++)
 		{
-			if (Engine::LineOfSight(exits[i]->location, container->location))
+			if (Engine::Distance(exits[i]->location, container->location) < ROOM_WIDTH && Engine::LineOfSight(exits[i]->location, container->location))
 			{
 				double distance = Engine::Distance(exits[i]->location, container->location);
 				AddToOutputText("Direct light visible. Distance: " + std::to_string(distance));
 				AddToOutputText("\tDirection: x: " + std::to_string((exits[i]->location.y - container->location.y) / distance) + " y: " + std::to_string(((exits[i]->location.x - container->location.x) / distance)));
-
-
 			}
 		}
 	}
 	return renderImage;
+}
+
+bool SensorBatch::IsUpdateable()
+{
+	if (frameDelay <= 0)
+	{
+		frameDelay = DISPLAY_DELAY_MAX;
+		return true;
+	}
+	--frameDelay;
+	return false;
 }
 
 void SensorBatch::Trigger()

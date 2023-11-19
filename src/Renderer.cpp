@@ -116,7 +116,7 @@ void Renderer::Display()
 {
 	for (int i = 0; i < SCREEN_NUMBER; i++)
 	{
-		if (renderPanels[i] != nullptr)
+		if (renderPanels[i] != nullptr && renderPanels[i]->IsUpdateable())
 		{
 			DisplayScreen(i);
 		}
@@ -147,8 +147,8 @@ void Renderer::DisplayScreen(int index)
 	{
 	case TOP_LEFT: DisplayLogicScreen(index, 0, 0); break;
 	case TOP_RIGHT: DisplayLogicScreen(index, 0, RENDER_WIDTH + 1); break;
-	case BOTTOM_LEFT: DisplayLogicScreen(index, 0, RENDER_HEIGHT); break;
-	case BOTTOM_Right: DisplayLogicScreen(index, RENDER_WIDTH, RENDER_HEIGHT); break;
+	case BOTTOM_LEFT: DisplayLogicScreen(index, RENDER_HEIGHT, 0); break;
+	case BOTTOM_Right: DisplayLogicScreen(index, RENDER_HEIGHT, RENDER_WIDTH); break;
 
 	default: break;
 	}

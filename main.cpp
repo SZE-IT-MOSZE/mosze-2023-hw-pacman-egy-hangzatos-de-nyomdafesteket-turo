@@ -32,12 +32,15 @@ int main()
 
 		bool exit = false;
 		system("cls");
+		Clock* gameClock = new Clock();
+		gameClock->Start();
 		while (!exit)
 		{
 			exit = engine->GameFrame();
-			Sleep(100);
+			gameClock->Wait();
 		}
-		std::cout << std::endl;
+		delete gameClock;
+		system("cls");
 		if (engine->IsGameWon())
 		{
 			std::cout << "Congratulation! You have won the game!";
@@ -50,6 +53,7 @@ int main()
 	}
 	delete Engine::GetInstance();
 	std::cout << _CrtDumpMemoryLeaks() << std::endl;
+	Sleep(2000);
 	system("pause");
 	return 0;
 }

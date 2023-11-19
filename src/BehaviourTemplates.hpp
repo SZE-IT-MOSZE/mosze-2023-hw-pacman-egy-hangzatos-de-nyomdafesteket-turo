@@ -14,7 +14,7 @@ public:
 	BehaviourMovement(BehaviourMovement& other);
 	~BehaviourMovement();
 
-	int Update(GameObject* caller) override;
+	void* Update(GameObject* caller) override;
 
 private:
 	int delay;
@@ -31,7 +31,7 @@ public:
 	BehaviourVision(BehaviourVision& other);
 	~BehaviourVision();
 
-	int Update(GameObject* caller) override;
+	void* Update(GameObject* caller) override;
 
 private:
 	int visionDistance;
