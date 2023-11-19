@@ -277,7 +277,7 @@ void Map::GenerateGameObjects()
 	Renderer::GetInstance()->mainCharacter = engine->mainCharacter;
 	engine->mainCharacter->inventory[0] = new LIDAR(engine->mainCharacter, this);
 	engine->mainCharacter->inventory[1] = new SensorBatch(engine->mainCharacter, this);
-	engine->mainCharacter->inventory[2] = new Seismograph(engine->mainCharacter, this);
+	engine->mainCharacter->inventory[2] = new EMFDetector(engine->mainCharacter, this);
 	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[0]));
 	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[1]));
 	Renderer::GetInstance()->StartDispayling(dynamic_cast<IRenderImage*>(engine->mainCharacter->inventory[2]));

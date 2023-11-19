@@ -87,7 +87,7 @@
     <ClCompile Include="src\Trap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Seismograph.cpp">
+    <ClCompile Include="src\EMFDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,7 +173,7 @@
     <ClInclude Include="src\Traps.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Seismograph.hpp">
+    <ClInclude Include="src\EMFDetector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,7 +25,7 @@ class Engine;
 #include "SensorBatch.hpp"
 #include "LoadingScreen.cpp"
 #include "Trap.hpp" // Why...
-#include "Seismograph.hpp"
+#include "EMFDetector.hpp"
 #include <iostream>
 
 #define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
