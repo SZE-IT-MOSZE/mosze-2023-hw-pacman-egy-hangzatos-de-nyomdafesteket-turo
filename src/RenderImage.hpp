@@ -9,5 +9,7 @@ public:
 	/// </summary>
 	/// <returns>A char matrix of the image to display</returns>
 	char** ProduceImage() = 0;
+
+	bool IsUpdateable() = 0;
 };
 #endif // !RENDERIMAGE_H

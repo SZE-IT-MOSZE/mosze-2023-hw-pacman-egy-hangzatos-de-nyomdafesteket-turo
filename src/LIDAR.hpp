@@ -3,11 +3,13 @@
 
 #include "Engine.hpp"
 
-class LIDAR :  public IRenderImage, public GameItem
+class LIDAR : public IRenderImage, public GameItem
 {
 public:
 	LIDAR(GameObject* container, Map* map);
 	~LIDAR();
+
+	bool IsUpdateable() override;
 	char** ProduceImage() override;
 
 	bool Condition() override;

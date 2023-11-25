@@ -103,7 +103,7 @@ KeyInput::~KeyInput()
 
 KeyInput::KeyInput()
 {
-	activeKeys = new KeyName[KEY_NUMBER];
+	activeKeys = new KeyName[KEY_COUNT];
 }
 
 //void KeyInput::Delete()

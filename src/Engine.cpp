@@ -311,6 +311,21 @@ Engine* Engine::GetInstance()
 	return enginePtr;
 }
 
+template<class T>
+DLinkedList<T>* Engine::GetGameObjectsOfType()
+{
+	DLinkedList<T>* list = new DLinkedList<T>();
+
+	for (int i = 0; i < gameObjectsCount; i++)
+	{
+		if (dynamic_cast<T>(gameObjects[i]))
+		{
+			list->PushLast(dynamic_cast<T>(gameObjects[i]));
+		}
+	}
+
+	return list;
+}
 
 
 #endif // !ENGINE

@@ -10,8 +10,7 @@
 #define ROOM_HEIGHT RENDER_HEIGHT
 #define DOOR_WIDTH 2
 #define EXIT_COUNT 5
-#define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */
-#define NPC_MULTIPLIER_PER_ROOM 10
+
 
 class Map
 {

@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <winuser.h>
 
-#define KEY_NUMBER 6
+#define KEY_COUNT 6
 
 #define VK_LEFT 0x25
 #define VK_UP 0x26

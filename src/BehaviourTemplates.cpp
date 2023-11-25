@@ -19,26 +19,30 @@ BehaviourMovement::~BehaviourMovement()
 {
 }
 
-int BehaviourMovement::Update(GameObject* caller)
+void* BehaviourMovement::Update(GameObject* caller)
 {
 	if (delay <= 0)
 	{
 		delay = rand() % maxDelay;
 		switch (rand() % 4)
 		{
-		case 0: caller->StepLeft(); break;
-		case 1: caller->StepUp(); break;
-		case 2: caller->StepRight(); break;
-		case 3: caller->StepDown(); break;
-		default: break;
+			case 0: caller->StepLeft(); break;
+			case 1: caller->StepUp(); break;
+			case 2: caller->StepRight(); break;
+			case 3: caller->StepDown(); break;
+			default: break;
 		}
 	}
 	else
 	{
 		--delay;
 	}
-	return 0;
+	return nullptr;
 }
+
+
+//////////////////////////////////////////////////////////////
+
 
 
 BehaviourVision::BehaviourVision(int visionDistance) : Behaviour()
@@ -55,13 +59,13 @@ BehaviourVision::~BehaviourVision()
 {
 }
 
-int BehaviourVision::Update(GameObject* caller)
+void* BehaviourVision::Update(GameObject* caller)
 {
 	if (Engine::Distance(caller->location, Engine::GetInstance()->mainCharacter->location) <= visionDistance)
 	{
-		return 1;
+		return new bool(true);
 	}
-	return 0;
+	return new bool(false);
 }
 
 

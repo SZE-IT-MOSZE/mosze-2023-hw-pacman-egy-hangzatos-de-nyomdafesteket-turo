@@ -3,6 +3,7 @@
 
 class Engine;
 
+#include "Clock.hpp"
 #include "KeyInput.hpp"
 #include "BStar.hpp"
 #include "DLinkedList.hpp"
@@ -23,10 +24,13 @@ class Engine;
 #include "LIDAR.hpp"
 #include "SensorBatch.hpp"
 #include "LoadingScreen.cpp"
+#include "Trap.hpp" // Why...
+#include "EMFDetector.hpp"
 #include <iostream>
 
 #define UPDATE_DISTANCE (ROOM_WIDTH + ROOM_HEIGHT) * 2
 #define LOS_CHECK_PRECISION 0.1
+#define MATH_PI 3.14159265358979323846
 
 
 class Engine
@@ -103,6 +107,13 @@ public:
 	static bool LineOfSight(Point p1, Point p2);
 
 	bool IsGameWon() { return gameWon; }
+
+	template <class T>
+	DLinkedList<T>* GetGameObjectsOfType();
+
+	Trap** traps;
+	int trapsCunt;
+
 private:
 	static Engine* enginePtr;
 
