@@ -37,6 +37,7 @@ template <class T>
 void DLinkedListNode<T*>::Delete()
 {
 	delete data;
+	data = nullptr;
 }
 
 template <class T>

@@ -44,7 +44,7 @@ EMFDetector::EMFDetector(GameObject* container, Map* map) : GameItem(container, 
 	content = "No activity";
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
-		renderImage[RENDER_HEIGHT - 1][3 * RENDER_WIDTH / 4 + i] = content[i];
+		renderImage[RENDER_HEIGHT - 1][3 * RENDER_WIDTH / 4 + i + 1] = content[i];
 	}
 	previousMap = new void** [EMF_RANGE];
 	for (int i = 0; i < EMF_RANGE; i++)
@@ -113,11 +113,11 @@ char** EMFDetector::ProduceImage()
 		float angleRatio;
 		if (robotCount <= EMF_CAPACITY)
 		{
-			angleRatio = 3.14159265358979323846 - 3.14159265358979323846 * (1.0 * robotCount / EMF_CAPACITY);
+			angleRatio = MATH_PI - MATH_PI * (1.0 * robotCount / EMF_CAPACITY);
 		}
 		else
 		{
-			angleRatio = 3.14159265358979323846;
+			angleRatio = MATH_PI;
 		}
 
 		double debugHeight = sin(angleRatio);
@@ -134,10 +134,10 @@ char** EMFDetector::ProduceImage()
 	}
 	else
 	{
-		for (float i = 0; i < radius; i += 0.1)
+		for (float i = 0; i < radius; i += 1)
 		{
-			int x = round(begin.x - 1 * i);
-			renderImage[x ][RENDER_WIDTH / 2] = '#';
+			int y = RENDER_WIDTH / 2 + i;
+			renderImage[begin.x][y] = '#';
 		}
 	}
 

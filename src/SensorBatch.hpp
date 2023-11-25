@@ -2,11 +2,14 @@
 #define SENSOR_BATCH_H
 
 #include "GameItem.hpp"
+#include "Traps.hpp"
 #include "Engine.hpp"
 #include <iostream>
 #include <string>
 
-#define DISPLAY_DELAY_MAX 20
+#define DISPLAY_DELAY_MAX 0
+#define LIGHT_SENSOR_RANGE ROOM_WIDTH
+#define GEIGER_COUNTER_RANGE ROOM_WIDTH
 
 class SensorBatch: public GameItem, public IRenderImage
 {
@@ -28,6 +31,8 @@ private:
 	char** renderImage;
 
 	bool lightSensorActive;
+	bool geigerCounterActive;
+	DLinkedList<TrapRadiation*>* radiationTrapList;
 
 	int frameDelay;
 };

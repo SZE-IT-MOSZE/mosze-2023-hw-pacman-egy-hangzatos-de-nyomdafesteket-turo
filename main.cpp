@@ -1,17 +1,8 @@
-//#define DEBUG
-
 #include "src\Engine.hpp"
-
-
-
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#ifdef DEBUG
-
-#endif // DEBUG
-
 
 
 int main()
@@ -52,8 +43,9 @@ int main()
 		std::cout << std::endl;
 	}
 	delete Engine::GetInstance();
-	std::cout << _CrtDumpMemoryLeaks() << std::endl;
+	int leak = _CrtDumpMemoryLeaks();
+	// std::cout << leak << std::endl;
 	Sleep(2000);
 	system("pause");
-	return 0;
+	return leak;
 }

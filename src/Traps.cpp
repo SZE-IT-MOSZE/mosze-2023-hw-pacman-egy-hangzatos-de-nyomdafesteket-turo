@@ -14,16 +14,28 @@ TrapRadiation::TrapRadiation(Engine* e, Point position) : Trap(e, position)
 	Init();
 }
 
+void TrapRadiation::Init()
+{
+	activity = rand();
+}
+
 TrapRadiation::~TrapRadiation()
 {
 
 }
 
+float TrapRadiation::GetActivity()
+{
+	return activity;
+}
+
 int TrapRadiation::Update()
 {
-	if (engine->Distance(this->location, mainCharacter->location) <= RADIATION_RANGE)
+	double dist = engine->Distance(this->location, mainCharacter->location) + 0.001;
+	if (dist <= RADIATION_RANGE / 2)
 	{
-		if (rand() <= JITTER_CHANCE)
+		int number = rand() / dist;
+		if (number >= JITTER_CHANCE)
 		{
 			switch (rand() % 4)
 			{

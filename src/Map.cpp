@@ -349,7 +349,35 @@ void Map::GenerateGameObjects()
 
 	// Create traps
 
-	
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (baseMap[i][j] && (i != startX || j != startY))
+			{
+
+				for (int k = 0; k < RADIATION_MULTIPLIER_PER_ROOM; k++)
+				{
+					if (rand() < RADIATION_CHANCE)
+					{
+						int offsetX, offsetY;
+
+						do
+						{
+							offsetX = 1 + rand() % (ROOM_HEIGHT - 2);
+							offsetY = 1 + rand() % (ROOM_WIDTH - 2);
+						} while (fullMap[x + offsetX][y + offsetY]->GetContent() != nullptr);
+
+						TrapRadiation* trap = new TrapRadiation(engine, Point{ i * ROOM_HEIGHT + offsetX, j * ROOM_WIDTH + offsetY });
+						
+						engine->AddGameObject(trap);
+						fullMap[trap->location.x][trap->location.y]->SetPassable(true);
+					}
+				}
+			}
+		}
+	}
+
 
 	// After objects are placed
 	for (int i = 0; i < height * ROOM_HEIGHT; i++)
