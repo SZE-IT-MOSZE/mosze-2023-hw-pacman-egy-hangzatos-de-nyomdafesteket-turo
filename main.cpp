@@ -1,4 +1,5 @@
 #include "src\Engine.hpp"
+#include "src\Testing.cpp"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -34,7 +35,7 @@ int main()
 		system("cls");
 		if (engine->IsGameWon())
 		{
-			std::cout << "Congratulation! You have won the game!";
+			std::cout << "Congratulation! You won the game!";
 		}
 		else
 		{
@@ -42,10 +43,36 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+	else if (option == Engine::MenuOptions::Test)
+	{
+		system("cls");
+		ErrorObject* errorsSummary = new ErrorObject();
+		bool (**testFunctions)(ErrorObject*) = Testing::GetTests();
+		std::cout << "Begin testing: " << TEST_ITERATION << " iterations will be made" << std::endl;
+		for (int i = 0; i < TESTCOUNT; i++)
+		{
+			testFunctions[i](errorsSummary);
+		}
+		free(testFunctions);
+		if (errorsSummary->messages->Count() == 0)
+		{
+			std::cout << "No errors present!" << std::endl;
+		}
+		else
+		{
+			std::cout << "Errors present (count: " << errorsSummary->messages->Count() << "): Messages:" << std::endl;
+			for (int i = 0; i < errorsSummary->messages->Count(); i++)
+			{
+				errorsSummary->messages->SeekToIndex(i);
+				std::cout << errorsSummary->messages->currentElement->data << std::endl;
+			}
+		}
+		delete errorsSummary;
+	}
 	delete Engine::GetInstance();
 	int leak = _CrtDumpMemoryLeaks();
 	// std::cout << leak << std::endl;
 	Sleep(2000);
 	system("pause");
-	return leak;
+	return 0;
 }

@@ -20,7 +20,11 @@ DLinkedList<T>::DLinkedList()
 template<class T>
 DLinkedList<T>::~DLinkedList()
 {
-	Empty();
+	//std::cout<< "Deleting a list. Properties: " << std::endl;
+	//std::cout<< "\tCount: " << Count() << std::endl;
+	//std::cout<< "\tFirst element address: " << firstElement << std::endl;
+	//std::cout<< "\Last element address: " << lastElement << std::endl;
+	// Empty(); // this was a dumb idea
 }
 
 

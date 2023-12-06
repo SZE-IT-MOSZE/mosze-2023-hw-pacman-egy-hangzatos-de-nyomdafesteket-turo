@@ -26,6 +26,7 @@ SensorBatch::~SensorBatch()
 		delete[] renderImage[i];
 	}
 	delete[] renderImage;
+	radiationTrapList->Empty();
 	delete radiationTrapList;
 }
 
