@@ -34,27 +34,13 @@ static COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
 static void StartLoadingScreen(int robotCount = 0)
 {
 	system("cls");
-	//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	//// you can loop k higher to see more color choices
-	//for (int k = 1; k < 255; k++)
-	//{
-	//	// pick the colorattribute k you want
-	//	SetConsoleTextAttribute(hConsole, k);
-	//	SAY k << " I want to be nice today!" << ENDL;
-	//}
-	//return;
-	while (robotCount < 5)
-	{
-		int rnd = rand();
-		robotCount = rnd % 15;
-	}
 	SAY "ROS 3.14.7533" << ENDL;
 	SAY "Interface ID: 301748656" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 3);
 	SAY "Welcome Operator. Today's task is:" << ENDL;
 	Spinner(20);
 	Sleep(LINE_SLEEPLENGTH * 3);
-	SAY "There has been an earthquake at mine " << rand() << ". Management needs you to investigate and recover the robots." << ENDL;
+	SAY "An earthquake shook the mine at site: ID" << rand() << ". Management needs you to investigate and recover the robots." << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Starting systems";
 	for (int j = 0; j < 3; j++)
@@ -124,17 +110,7 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Camera: ERROR" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Gas sensor: OK" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 3);
-	//SAY "\tAir composition:" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 5);
-	//SAY "\t\tNitrogen: 0.65" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tOxygen: 0.11" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tCarbon Dioxide: 0.2" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tCalcites: 0.04" << ENDL;
+	SAY "EMF detector: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 2);
 	SAY "LIDAR: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
@@ -148,7 +124,7 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Near Field Communication: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 2);
-	SAY "\tNear Field Communication reports no nearby robots" << ENDL;
+	SAY "\tNear Field Communication reports several nearby robots" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Tool 1: MISSING" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
@@ -166,14 +142,14 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "\tAutomation: NOT POSSIBLE" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Systems operational. Communication stable. Ping average: 120 ms. Jitter MAX: 30 ms. Press return when ready to begin the mission!";
+	SAY "Systems operational. Communication stable. Ping average: 120 ms. Jitter MAX: 30 ms.";
 	SAY ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "New objective: Bring the robot UP to the TOP of the mine. There are several cracks to the surface. Find them! Switching to manual drive";
+	SAY "Reports claim there are openings to the surface. Objective: use the arrow keys to find an exit! Operation begins shortly; Switching to manual drive";
 	Sleep(LINE_SLEEPLENGTH);
-	for (int j = 0; j < 10; j++)
+	for (int j = 0; j < 7; j++)
 	{
-		Spinner(5);
+		Spinner(12);
 		SAY '.';
 	}
 }
@@ -200,19 +176,5 @@ static void Spinner(int rotCount)
 	}
 	SetConsoleCursorPosition(output, pos);
 }
-
-
-/*
-
-#### ####
-# R     #
-#        
-# Q  P  #
-#########
-
-
-
-
-*/
 
 #endif

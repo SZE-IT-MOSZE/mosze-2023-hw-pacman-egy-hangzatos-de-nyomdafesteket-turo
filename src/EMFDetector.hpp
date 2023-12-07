@@ -10,9 +10,9 @@
 
 // BIGGER RANGES ARE SAFE
 #define EMF_RANGE (ROOM_WIDTH / 2)
-#define EMF_CAPACITY 10
+#define EMF_DETECTION_DISTANCE (EMF_RANGE / 2)
 #define EMF_UPDATE_DELAY 1
-#define EMF_JITTER 3
+#define EMF_JITTER 0.2
 
 class EMFDetector : public IRenderImage, public GameItem
 {
@@ -31,7 +31,8 @@ public:
 private:
 	char** renderImage;
 	void*** previousMap;
-	int robotCount;
+	//int robotCount;
+	// int detectDistance;
 	int updateDelay;
 };
 
