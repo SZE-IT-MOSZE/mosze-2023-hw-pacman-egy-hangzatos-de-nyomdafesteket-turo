@@ -214,6 +214,7 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\EMFDetector.cpp" />
     <ClCompile Include="src\SensorBatch.cpp" />
+    <ClCompile Include="src\Testing.cpp" />
     <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\Trap.cpp" />
     <ClCompile Include="src\Traps.cpp" />

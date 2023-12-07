@@ -244,9 +244,10 @@ int Engine::MainMenu()
 	SAY "1: Play Random map" << ENDL;
 	SAY "2: Load Saved Map" << ENDL;
 	SAY "3: Create Map" << ENDL;
+	SAY "4: Run tests" << ENDL;
 	int ret;
 	std::cin >> ret;
-	while (ret < (int)Engine::MenuOptions::Quit || ret >(int)Engine::MenuOptions::CreateMap)
+	while (ret < (int)Engine::MenuOptions::Quit || ret >= (int)Engine::MenuOptions::WRONGOPT)
 	{
 		SAY "Invalid option. Again!" << ENDL;
 		std::cin >> ret;
@@ -284,6 +285,7 @@ Engine::~Engine()
 		delete exits[i];
 	}
 	delete[] exits;
+	enginePtr = nullptr;
 }
 
 void Engine::Init()

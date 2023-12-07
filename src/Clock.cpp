@@ -21,7 +21,7 @@ void Clock::Wait(int framerate)
 {
 	++frameCount;
 	long unsigned int delta = GetTimeSinceEpoch() - previousTime;
-	int sleep = 1000 / FRAMERATE - delta;
+	int sleep = 1000 / framerate - delta;
 	if (sleep < 0)
 	{
 		sleep = 0;

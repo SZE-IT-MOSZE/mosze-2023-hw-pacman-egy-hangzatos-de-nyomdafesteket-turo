@@ -60,7 +60,9 @@ public:
 		Quit = 0,
 		PlayRandom = 1,
 		LoadSavedMap = 2,
-		CreateMap = 3
+		CreateMap = 3,
+		Test = 4,
+		WRONGOPT
 	};
 
 	/// <summary>
