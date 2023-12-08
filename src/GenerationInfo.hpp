@@ -1,6 +1,9 @@
 #ifndef GENERATIONINFO_H
 #define GENERATIONINFO_H
 
+/// <summary>
+/// Unused. Intended use: specify information how the object should be generated
+/// </summary>
 __interface IGenerationInfo
 {
 public:

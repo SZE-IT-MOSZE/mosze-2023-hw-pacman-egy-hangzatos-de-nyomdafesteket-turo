@@ -5,6 +5,9 @@
 
 #include "Engine.hpp"
 
+/// <summary>
+/// The objective of the game
+/// </summary>
 class Exit : public GameObject
 {
 public:

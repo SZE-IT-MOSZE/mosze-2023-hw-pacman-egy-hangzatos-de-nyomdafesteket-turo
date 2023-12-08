@@ -9,6 +9,9 @@
 #define NPC_CHANCE RAND_MAX / 2 /* usage: rand() < CHANCE */
 #define NPC_MULTIPLIER_PER_ROOM 10
 
+/// <summary>
+/// Non playable character, behaviour defined by other classes
+/// </summary>
 class NonPlayableCharacter : public GameObject
 {
 public:

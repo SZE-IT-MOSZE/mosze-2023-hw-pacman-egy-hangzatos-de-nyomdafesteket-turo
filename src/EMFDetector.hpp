@@ -14,6 +14,10 @@
 #define EMF_UPDATE_DELAY 1
 #define EMF_JITTER 0.2
 
+
+/// <summary>
+/// EMF detector, displaying the distance to the closest robot
+/// </summary>
 class EMFDetector : public IRenderImage, public GameItem
 {
 public:

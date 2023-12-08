@@ -7,6 +7,9 @@
 #define MAXDLEAY 500
 #define MINDELAY 1
 
+/// <summary>
+/// Intended use: define possible movement patterns for the NPCs (moves randomly, towards the player, etc.)
+/// </summary>
 class BehaviourMovement : public Behaviour
 {
 public:
@@ -24,6 +27,9 @@ private:
 #define MAXVISION 20
 #define MINVISION 5
 
+/// <summary>
+/// Intended use: Define a condition whether the move (and unmade BehaviourInteract) should be allowed to update
+/// </summary>
 class BehaviourVision : public Behaviour
 {
 public:
@@ -37,6 +43,12 @@ private:
 	int visionDistance;
 };
 
+/// <summary>
+/// Factory method for the behaviour
+/// </summary>
+/// <param name="index">Unique index of the Behaviour class</param>
+/// <param name="other">The original object to use as the template</param>
+/// <returns>A copied behaviour</returns>
 Behaviour* NewBehaviour(int index, Behaviour& other)
 {
 	switch (index)
@@ -49,4 +61,5 @@ Behaviour* NewBehaviour(int index, Behaviour& other)
 }
 
 #endif // !BEHAVIOUR_MOVEMENT_H
+
 

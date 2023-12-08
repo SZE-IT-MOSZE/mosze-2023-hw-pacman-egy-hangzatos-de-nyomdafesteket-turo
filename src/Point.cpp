@@ -1,6 +1,9 @@
 #ifndef DPOINT
 #define DPOINT
 
+/// <summary>
+/// Two integers, resembling a point in a 2D coordinate system
+/// </summary>
 struct Point
 {
 	int x, y;

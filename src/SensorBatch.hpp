@@ -11,6 +11,9 @@
 #define LIGHT_SENSOR_RANGE ROOM_WIDTH
 #define GEIGER_COUNTER_RANGE ROOM_WIDTH
 
+/// <summary>
+/// Utility sensors, scanning for various things
+/// </summary>
 class SensorBatch: public GameItem, public IRenderImage
 {
 public:
