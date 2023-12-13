@@ -24,7 +24,7 @@ EMFDetector::EMFDetector(GameObject* container, Map* map) : GameItem(container, 
 	{
 		renderImage[0][i] = content[i];
 	}
-	content = "Manufacturer: MOSZE Software Ltd. ; Hardware serial number: " + std::to_string(rand());
+	content = "Manufacturer: MOSZE Software Ltd. --- Hardware serial number: " + std::to_string(rand());
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
 		renderImage[1][i] = content[i];
