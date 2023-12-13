@@ -3,6 +3,9 @@
 
 #include "Engine.hpp"
 
+/// <summary>
+/// Base class for the objects in the game
+/// </summary>
 class GameObject : public IUpdateable // , public ITriggerable, public IRenderImage
 {
 public:

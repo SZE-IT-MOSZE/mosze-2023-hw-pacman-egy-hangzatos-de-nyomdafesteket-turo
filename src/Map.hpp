@@ -11,7 +11,9 @@
 #define DOOR_WIDTH 2
 #define EXIT_COUNT 5
 
-
+/// <summary>
+/// The 2D map of the game
+/// </summary>
 class Map
 {
 public:

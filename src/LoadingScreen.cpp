@@ -1,7 +1,7 @@
 #ifndef LOADING_SCREEN
 #define LOADING_SCREEN
 
-#define SLEEPLENGTH 80
+#define SLEEPLENGTH 70
 #define LINE_SLEEPLENGTH 250
 #define SAY std::cout <<
 #define ENDL std::endl
@@ -31,30 +31,324 @@ static COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
 	}
 }
 
+#define ROBOT_NAMES_COUNT sizeof(robotNames)/sizeof(robotNames[0])
+
+
 static void StartLoadingScreen(int robotCount = 0)
 {
+	std::string robotNames[] = {
+		"EpsilonDelta",
+		"ThetaPrime",
+		"CosineSigma",
+		"LambdaPi",
+		"DeltaFunction",
+		"ZetaIntegral",
+		"NuSine",
+		"RhoTangent",
+		"GammaMatrix",
+		"BetaDerivative",
+		"OmegaSummation",
+		"AlphaCotangent",
+		"PhiExponential",
+		"IotaLogarithm",
+		"SigmaLimit",
+		"MuSquareRoot",
+		"DeltaQuotient",
+		"EpsilonSeries",
+		"ZetaConvergence",
+		"XiPolynomial",
+		"PsiHarmonic",
+		"RhoCurve",
+		"KappaPrime",
+		"LambdaEllipse",
+		"TauEllipse",
+		"MuHypotenuse",
+		"UpsilonElliptic",
+		"OmegaLinearity",
+		"PiConvolution",
+		"ThetaTransform",
+		"EtaEigenvalue",
+		"BetaCoefficient",
+		"DeltaDivergence",
+		"GammaGradient",
+		"AlphaAmplitude",
+		"NuNode",
+		"SigmaSubspace",
+		"RhoRoot",
+		"ChiCoefficient",
+		"OmegaOrthogonal",
+		"PhiFourier",
+		"LambdaLaplacian",
+		"PsiPrime",
+		"KappaKernel",
+		"IotaInfinity",
+		"XiNodal",
+		"EpsilonEquation",
+		"GammaGroup",
+		"BetaBasis",
+		"StellarQuasar",
+		"LunarNebula",
+		"CelestialNova",
+		"GalacticPulse",
+		"OrionMatrix",
+		"AstroCrescent",
+		"CosmicHarmony",
+		"NebulaSpectra",
+		"LunaOrbit",
+		"AstrumEclipse",
+		"CosmoRadiance",
+		"SpectralNebula",
+		"CelestialAurora",
+		"GalacticZenith",
+		"OrbitaStar",
+		"StellarLumina",
+		"NebulaSonic",
+		"LunarHorizon",
+		"AstroLuminance",
+		"OrionSerenity",
+		"CelestialPolarity",
+		"GalacticTheta",
+		"SpectralInferno",
+		"LunaFlare",
+		"AstralVivid",
+		"CosmoSynergy",
+		"NebulaQuantum",
+		"StellarHarmony",
+		"CelestialRadiant",
+		"GalacticPulse",
+		"OrionNexus",
+		"AstroCognita",
+		"SpectralLumina",
+		"LunarEon",
+		"AstrumPulse",
+		"CosmoVortex",
+		"NebulaCrescent",
+		"StellarWave",
+		"CelestialHarbor",
+		"GalacticNucleus",
+		"OrbitaChrono",
+		"AstroSonic",
+		"SpectralHorizon",
+		"LunaAstrum",
+		"AstralHarmonic",
+		"OrionSpectrum",
+		"CosmicNebula",
+		"NebulaZephyr",
+		"StellarAegis",
+		"CelestialVivid",
+		"AthenaMechanica",
+		"ApolloChronos",
+		"HermesAutomatos",
+		"ArtemisCyberia",
+		"ZeusMachinios",
+		"PerseusQuantum",
+		"HephaestusCyberius",
+		"HeraAutomata",
+		"OdysseusCircuitos",
+		"AchillesNebulon",
+		"DemeterLogicus",
+		"PanSpectranos",
+		"HestiaCognita",
+		"HerculesChronotron",
+		"DionysusSpectraeus",
+		"AresTechnos",
+		"AphroditeHarmonia",
+		"AtlasMechatron",
+		"GaiaCybernaia",
+		"PericlesQuantitas",
+		"PrometheusVortexios",
+		"OrpheusSymphonios",
+		"TritonAegis",
+		"CalliopeHarmonica",
+		"TheseusNexus",
+		"CassandraChrona",
+		"HypatiaNebulaea",
+		"NyxQuantima",
+		"EndymionLuminaris",
+		"ClioHarmonius",
+		"EosCircuitia",
+		"MorosAutomos",
+		"NemesisCybernis",
+		"MnemosyneQuantos",
+		"HeraclesNebulios",
+		"IcarusVortexius",
+		"PolyphemusSpectrion",
+		"BellerophonChronos",
+		"PhoebeHarmonis",
+		"TantalusQuantaros",
+		"EurydiceSpectrina",
+		"HyperionMechanos",
+		"KronosAutomaton",
+		"CronusCircuitus",
+		"PandoraAutomata",
+		"SeleneCybernix",
+		"AntigoneChronara",
+		"IphigeniaNebulaea",
+		"ClytemnestraQuantia",
+		"CodeCompiler",
+		"ByteScanner",
+		"LogicExecutor",
+		"QuantumProcessor",
+		"KernelOptimizer",
+		"CyberAlgorithm",
+		"DataMiner",
+		"BitAssembler",
+		"SyntaxAnalyzer",
+		"LoopIterator",
+		"BinaryAssembler",
+		"MachineInterpreter",
+		"LogicGatekeeper",
+		"CacheOptimizer",
+		"RecursiveResolver",
+		"VariableAnalyzer",
+		"ProtocolGuardian",
+		"FirewallSentinel",
+		"NetworkNavigator",
+		"APIConnector",
+		"BlockchainArchitect",
+		"ObjectEncoder",
+		"ErrorHandler",
+		"VectorDispatcher",
+		"EncryptionMaestro",
+		"BackendArchitect",
+		"FrontendSurgeon",
+		"DatabaseOverlord",
+		"CloudPioneer",
+		"IoTCommander",
+		"DevOpsVanguard",
+		"VirtualRealitySorcerer",
+		"AugmentedRealityArtisan",
+		"BigDataOverseer",
+		"ContinuousIntegrationWizard",
+		"AutomatedTestingSavant",
+		"AgileScrumMaster",
+		"CodeCraftsman",
+		"SoftwarePhoenix",
+		"APIEvangelist",
+		"CyberneticGuardian",
+		"DigitalMaven",
+		"ResponsiveDesignSculptor",
+		"MultithreadingMystic",
+		"MicroservicesMaestro",
+		"BlockchainSculptor",
+		"ServerlessSorcerer",
+		"GitMaster",
+		"AlgorithmArchitect",
+		"DeepLearningProdigy",
+		"QuantumFluxEngine",
+		"GravitonHarmonizer",
+		"PhotonMatrixSolver",
+		"NeutrinoNavigator",
+		"ElectronCatalyst",
+		"BosonResonator",
+		"QuantumEntangler",
+		"DarkMatterProcessor",
+		"WaveParticleAnalyzer",
+		"QuantumFieldPilot",
+		"HadronColliderGuide",
+		"StringTheoryMaestro",
+		"NuclearFusionArchitect",
+		"QuantumGravityNavigator",
+		"QuantumTunnelingPioneer",
+		"RelativitySculptor",
+		"EntropyReductionEngine",
+		"PhotonWaveformSynthesizer",
+		"QuantumEntanglementMaestro",
+		"NeutronStarNavigator",
+		"AstrophysicsOracle",
+		"WaveParticleDualityCraftsman",
+		"MuonHarmonicProcessor",
+		"QuantumDecoherenceMinimizer",
+		"QuantumSuperpositionSculptor",
+		"BlackHoleNavigator",
+		"AntimatterPioneer",
+		"UnifiedFieldTheorist",
+		"QuantumChaosEngineer",
+		"NeutrinoFlareAnalyzer",
+		"QuantumSingularityEngine",
+		"RelativisticWarpNavigator",
+		"PlasmaFusionSorcerer",
+		"QuantumVortexArchitect",
+		"QuantumPhaseShiftSculptor",
+		"DarkEnergyHarmonizer",
+		"QuantumVacuumCraftsman",
+		"NeutrinoWaveguideSorcerer",
+		"QuantumSpinInverter",
+		"GravitationalWaveHarmonicsMaestro",
+		"QuantumMagnetosphereSculptor",
+		"BosonHarmonicSynthesizer",
+		"QuantumResonanceEngine",
+		"AstroParticleNavigator",
+		"QuantumInertiaReducer",
+		"QuantumFieldFluctuationMinimizer",
+		"QuantumAstroNavigator",
+		"StringVibrationHarmonizer",
+		"QuantumCoherenceEngine",
+		"AxionBlaze",
+		"QuantumPulseX",
+		"SpectraVortex",
+		"NebulaStriker",
+		"LuminexTitan",
+		"AstronNova",
+		"TechViper",
+		"CrimsonHex",
+		"BlitzWave",
+		"ZeroSynergy",
+		"NovaPulse",
+		"QuantumRift",
+		"ChronoStorm",
+		"VividSonic",
+		"OrionStriker",
+		"CosmicHarbinger",
+		"VortexSpecter",
+		"QuantumCraze",
+		"LunarThunder",
+		"NebulaShadow",
+		"CynosureVista",
+		"XenonCascade",
+		"GalacticPulse",
+		"SonicBlitz",
+		"NyxStriker",
+		"QuantumIgnition",
+		"ZephyrBlaze",
+		"AstroCatalyst",
+		"EclipseMystique",
+		"SynergeticVortex",
+		"QuantumFury",
+		"CrimsonCatalyst",
+		"BlazeNova",
+		"StellarHarbinger",
+		"LuminaSpecter",
+		"VividCatalyst",
+		"QuantumAurora",
+		"NebulaXenon",
+		"CyberCraze",
+		"CrimsonSonic",
+		"VortexIgnition",
+		"NovaBlitz",
+		"AstroSynergy",
+		"QuantumCipher",
+		"NebulaVortex",
+		"XenonStriker",
+		"CrimsonNova",
+		"AstronBlitz",
+		"CerberusX",
+		"PhoenixBlaze",
+		"KrakenVortex",
+		"SphinxHarbinger",
+		"BansheeEcho"
+
+	};
 	system("cls");
-	//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	//// you can loop k higher to see more color choices
-	//for (int k = 1; k < 255; k++)
-	//{
-	//	// pick the colorattribute k you want
-	//	SetConsoleTextAttribute(hConsole, k);
-	//	SAY k << " I want to be nice today!" << ENDL;
-	//}
-	//return;
-	while (robotCount < 5)
-	{
-		int rnd = rand();
-		robotCount = rnd % 15;
-	}
-	SAY "ROS 3.14.7533" << ENDL;
+	SAY "Starting... ROS 3.14.7533" << ENDL;
+	Sleep(LINE_SLEEPLENGTH);
 	SAY "Interface ID: 301748656" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 3);
-	SAY "Welcome Operator. Today's task is:" << ENDL;
+	SAY "Welcome Operator: { name:\"A sonorous, but unprofane\" }. Today's task is:" << ENDL;
+	Sleep(LINE_SLEEPLENGTH);
 	Spinner(20);
 	Sleep(LINE_SLEEPLENGTH * 3);
-	SAY "There has been an earthquake at mine " << rand() << ". Management needs you to investigate and recover the robots." << ENDL;
+	SAY "An earthquake shook the mine at site: ID" << rand() << ". Company needs you to investigate and recover the robots." << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Starting systems";
 	for (int j = 0; j < 3; j++)
@@ -66,7 +360,7 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "NO. of robots: " << robotCount << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Connecting to main communications cluster. Pinging";
+	SAY "Connecting to main communications cluster. Robot: { name:\"" << robotNames[rand() % ROBOT_NAMES_COUNT] << "\", ID: 0 }. Pinging";
 	Sleep(LINE_SLEEPLENGTH);
 	for (int j = 0; j < 5; j++)
 	{
@@ -79,13 +373,13 @@ static void StartLoadingScreen(int robotCount = 0)
 	SAY "Connecting to individual robots" << ENDL;
 	for (int i = 0; i < 2; i++)
 	{
-		SAY "Connecting to Robot NO. " << i + 1 << ENDL;
+		SAY "Connecting to Robot: { name:\"" << robotNames[rand() % ROBOT_NAMES_COUNT] << "\", ID: " << i + 1 << " }" << ENDL;
 		Sleep(LINE_SLEEPLENGTH / 2);
 		SAY "Establishing connection. Pinging";
 		Sleep(LINE_SLEEPLENGTH * 2);
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 4; j++)
 		{
-			Spinner(5);
+			Spinner(7);
 			SAY '.';
 		}
 		SAY ENDL;
@@ -94,13 +388,13 @@ static void StartLoadingScreen(int robotCount = 0)
 		Sleep(LINE_SLEEPLENGTH * 2);
 
 	}
-	SAY "Connecting to Robot NO. 3" << ENDL;
+	SAY "Connecting to Robot: { name:\"" << robotNames[rand() % ROBOT_NAMES_COUNT] << "\", ID: 3 }" << ENDL;
 	Sleep(LINE_SLEEPLENGTH / 2);
 	SAY "Establishing connection. Pinging";
 	Sleep(LINE_SLEEPLENGTH * 2);
 	for (int j = 0; j < 2; j++)
 	{
-		Spinner(5);
+		Spinner(7);
 		SAY '.';
 	}
 	SAY ENDL;
@@ -124,17 +418,7 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Camera: ERROR" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Gas sensor: OK" << ENDL;
-	Sleep(LINE_SLEEPLENGTH / 3);
-	//SAY "\tAir composition:" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 5);
-	//SAY "\t\tNitrogen: 0.65" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tOxygen: 0.11" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tCarbon Dioxide: 0.2" << ENDL;
-	//Sleep(LINE_SLEEPLENGTH / 10);
-	//SAY "\t\tCalcites: 0.04" << ENDL;
+	SAY "EMF detector: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 2);
 	SAY "LIDAR: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
@@ -148,7 +432,7 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Near Field Communication: OK" << ENDL;
 	Sleep(LINE_SLEEPLENGTH * 2);
-	SAY "\tNear Field Communication reports no nearby robots" << ENDL;
+	SAY "\tNear Field Communication reports several nearby robots" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "Tool 1: MISSING" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
@@ -166,14 +450,14 @@ static void StartLoadingScreen(int robotCount = 0)
 	Sleep(LINE_SLEEPLENGTH);
 	SAY "\tAutomation: NOT POSSIBLE" << ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "Systems operational. Communication stable. Ping average: 120 ms. Jitter MAX: 30 ms. Press return when ready to begin the mission!";
+	SAY "Systems operational. Communication stable. Ping average: 120 ms. Jitter MAX: 30 ms.";
 	SAY ENDL;
 	Sleep(LINE_SLEEPLENGTH);
-	SAY "New objective: Bring the robot UP to the TOP of the mine. There are several cracks to the surface. Find them! Switching to manual drive";
+	SAY "Reports claim there are openings to the surface. Objective: use the arrow keys to find an exit! Operation begins shortly; Switching to manual drive";
 	Sleep(LINE_SLEEPLENGTH);
-	for (int j = 0; j < 10; j++)
+	for (int j = 0; j < 7; j++)
 	{
-		Spinner(5);
+		Spinner(15);
 		SAY '.';
 	}
 }
@@ -200,19 +484,5 @@ static void Spinner(int rotCount)
 	}
 	SetConsoleCursorPosition(output, pos);
 }
-
-
-/*
-
-#### ####
-# R     #
-#        
-# Q  P  #
-#########
-
-
-
-
-*/
 
 #endif

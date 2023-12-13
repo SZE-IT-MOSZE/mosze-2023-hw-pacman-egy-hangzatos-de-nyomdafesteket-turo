@@ -1,6 +1,9 @@
 #ifndef RENDERIMAGE_H
 #define RENDERIMAGE_H
 
+/// <summary>
+/// The interface that connects this object to the renderer via a char matrix
+/// </summary>
 __interface IRenderImage
 {
 public:

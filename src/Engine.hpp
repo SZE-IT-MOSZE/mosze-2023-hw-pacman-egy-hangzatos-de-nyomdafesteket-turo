@@ -88,28 +88,66 @@ public:
 
 	Map* GetMap();
 
-	MainCharacter* mainCharacter;
+	MainCharacter* mainCharacter; 
 
 	Exit** exits;
 
+	/// <summary>
+	/// Moves the given object to the specified target
+	/// </summary>
+	/// <param name="what">The object to move</param>
+	/// <param name="target">The point where it should be</param>
+	/// <returns>If the move was succesful</returns>
 	bool MoveObject(GameObject* what, Point target);
 
+	/// <summary>
+	/// Calculates the distance between two points
+	/// </summary>
+	/// <param name="p1">Point 1</param>
+	/// <param name="p2">Point 2</param>
+	/// <returns>The distance between the two points</returns>
 	static double Distance(Point p1, Point p2);
 
+	/// <summary>
+	/// Linear interpolation between two numbers
+	/// </summary>
+	/// <param name="x">Smaller number</param>
+	/// <param name="y">Larger number</param>
+	/// <param name="ratio">Ratio</param>
+	/// <returns>The result of the interpolation</returns>
 	static double LERP(int x, int y, double ratio);
 
+	/// <summary>
+	/// Ends the game at the next frame
+	/// </summary>
+	/// <param name="win">If the game was won or lost</param>
 	void EndGame(bool win);
 
+	/// <summary>
+	/// Adds an object to the game
+	/// </summary>
+	/// <param name="what">The object</param>
 	void AddGameObject(GameObject* what);
 
 	GameObject** GetGameObjects() { return gameObjects; }
 
 	int GetGameObjectCount() { return gameObjectsCount; }
 
+	/// <summary>
+	/// Determines if there is an unobstructed linear path between two points
+	/// </summary>
+	/// <param name="p1">Point 1</param>
+	/// <param name="p2">Point 2</param>
+	/// <returns>If there is an unobstructed linear path between the two points</returns>
 	static bool LineOfSight(Point p1, Point p2);
 
 	bool IsGameWon() { return gameWon; }
 
+	/// <summary>
+	/// Select all the gameObjects
+	/// </summary>
+	/// <typeparam name="T">Selector type</typeparam>
+	/// <returns>A list of all the objects passing the selector</returns>
 	template <class T>
 	DLinkedList<T>* GetGameObjectsOfType();
 
@@ -149,6 +187,10 @@ private:
 
 	Renderer* rendererPtr;
 
+	/// <summary>
+	/// Checks if the game should end
+	/// </summary>
+	/// <returns>If the game should end</returns>
 	bool CheckExit();
 
 	bool gameEnds;

@@ -19,29 +19,42 @@ EMFDetector::EMFDetector(GameObject* container, Map* map) : GameItem(container, 
 	}
 
 	// TERRIBLE PATTERN INCOMING
-	std::string content = "EMF detector V 5.0";
+	std::string content = "EMF detector V 5.187.4636";
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
 		renderImage[0][i] = content[i];
 	}
-	content = "Detectable robots:";
+	content = "Manufacturer: MOSZE Software Ltd. --- Hardware serial number: " + std::to_string(rand());
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
 		renderImage[1][i] = content[i];
 	}
-	renderImage[2][1] = '0';
-	renderImage[2][2] = '-';
-	content = std::to_string(EMF_CAPACITY);
+	content = "Parameters: ";
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
-		renderImage[2][3 + i] = content[i];
+		renderImage[2][i] = content[i];
 	}
-	content = "High activity";
+	content = "Power consumption: 12V, 3W";
+	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
+	{
+		renderImage[3][3 + i] = content[i];
+	}
+	content = "Effective range: " + std::to_string(EMF_DETECTION_DISTANCE);
+	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
+	{
+		renderImage[4][3 + i] = content[i];
+	}
+	content = "Minimal detectable flux density: 0.00002 T";
+	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
+	{
+		renderImage[4][3 + i] = content[i];
+	}
+	content = "0 mGauss";
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
 		renderImage[RENDER_HEIGHT - 1][RENDER_WIDTH / 4 - content.size() + i] = content[i];
 	}
-	content = "No activity";
+	content = "400+ mGauss";
 	for (int i = 0; i < content.size() && i < RENDER_WIDTH; i++)
 	{
 		renderImage[RENDER_HEIGHT - 1][3 * RENDER_WIDTH / 4 + i + 1] = content[i];
@@ -72,7 +85,7 @@ bool EMFDetector::IsUpdateable()
 
 char** EMFDetector::ProduceImage()
 {
-
+	int distance = EMF_DETECTION_DISTANCE;
 	for (int i = 0; i < EMF_RANGE; i++)
 	{
 		for (int j = 0; j < EMF_RANGE; j++)
@@ -90,7 +103,12 @@ char** EMFDetector::ProduceImage()
 			Tile* item = map->fullMap[indexX][indexY];
 			if (dynamic_cast<NonPlayableCharacter*>(item->GetContent()))
 			{
-				++robotCount;
+				NonPlayableCharacter* npc = dynamic_cast<NonPlayableCharacter*>(item->GetContent());
+				double dist = Engine::Distance(npc->location, container->location);
+				if (dist < distance)
+				{
+					distance = dist;
+				}
 			}
 		}
 	}
@@ -100,50 +118,36 @@ char** EMFDetector::ProduceImage()
 	Point begin{ RENDER_HEIGHT - 1, RENDER_WIDTH / 2 };
 	int radius = RENDER_HEIGHT - 2;
 
-	for (int i = 0; i < RENDER_HEIGHT; i++)
+	//for (int i = 0; i < RENDER_HEIGHT; i++)
+	for (int i = RENDER_HEIGHT - 1; i >= RENDER_HEIGHT * (12.0 / 25.0); i--)
 	{
 		for (int j = RENDER_WIDTH / 2 - radius; j < RENDER_WIDTH / 2 + radius + 1; j++)
 		{
 			renderImage[i][j] = ' ';
 		}
 	}
-
-	if (robotCount != 0)
+	float angleRatio = (MATH_PI - MATH_PI * (1.0 * distance / EMF_DETECTION_DISTANCE));
+	angleRatio += sin(rand()) * (EMF_JITTER - 1.0 * EMF_JITTER / 2);
+	if (angleRatio < 0)
 	{
-		float angleRatio;
-		if (robotCount <= EMF_CAPACITY)
-		{
-			angleRatio = MATH_PI - MATH_PI * (1.0 * robotCount / EMF_CAPACITY);
-		}
-		else
-		{
-			angleRatio = MATH_PI;
-		}
-
-		double debugHeight = sin(angleRatio);
-		double debugWidth = cos(angleRatio);
-
-		// Make pointer
-		for (float i = 0; i < radius; i += 0.1)
-		{
-			int x = round(begin.x - debugHeight * i);
-
-			int y = round(begin.y - debugWidth * i);
-			renderImage[x][y] = '#';
-		}
+		angleRatio = 0;
 	}
-	else
+	else if (angleRatio > MATH_PI)
 	{
-		for (float i = 0; i < radius; i += 1)
-		{
-			int y = RENDER_WIDTH / 2 + i;
-			renderImage[begin.x][y] = '#';
-		}
+		angleRatio = 1;
+	}
+	double debugHeight = sin(angleRatio) * (12.0 / 25.0); // yes, I measured the size of the display
+	double debugWidth = cos(angleRatio);
+
+	// Make pointer
+	for (float i = 0; i < radius; i += 0.1)
+	{
+		int x = round(begin.x - debugHeight * i);
+
+		int y = round(begin.y - debugWidth * i);
+		renderImage[x][y] = '#';
 	}
 
-
-
-	robotCount = 0;
 	return renderImage;
 }
 

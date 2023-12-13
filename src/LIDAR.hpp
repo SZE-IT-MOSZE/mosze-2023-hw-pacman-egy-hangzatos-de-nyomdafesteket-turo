@@ -3,6 +3,9 @@
 
 #include "Engine.hpp"
 
+/// <summary>
+/// Lidar, creating a 2D map of the surroundings of the player
+/// </summary>
 class LIDAR : public IRenderImage, public GameItem
 {
 public:

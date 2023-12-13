@@ -3,6 +3,9 @@
 
 #include "GameObject.hpp"
 
+/// <summary>
+/// A base class for the behaviour of NPCs
+/// </summary>
 class Behaviour
 {
 public:

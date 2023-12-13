@@ -26,8 +26,16 @@ public:
 	/// <param name="framerate">Frames per second</param>
 	void Wait(int framerate = FRAMERATE);
 
+	/// <summary>
+	/// Get the amount of frames since Start()
+	/// </summary>
+	/// <returns>The amount of frames since Start()</returns>
 	long unsigned int GetTotalFrames() { return frameCount; }
 
+	/// <summary>
+	/// Get the time at the previous Wait() call
+	/// </summary>
+	/// <returns>The time at the previous Wait() call</returns>
 	long unsigned int GetPreviousTime() { return previousTime; }
 
 	long unsigned int GetTimeSinceEpoch();

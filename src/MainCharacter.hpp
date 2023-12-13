@@ -7,6 +7,9 @@
 
 #define INVENTORY_SIZE 12
 
+/// <summary>
+/// The main character
+/// </summary>
 class MainCharacter : public GameObject
 {
 public: 

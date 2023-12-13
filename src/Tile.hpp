@@ -4,7 +4,9 @@
 #include "DDelegate.hpp"
 #include "Engine.hpp"
 
-
+/// <summary>
+/// A tile, of which the map is made of
+/// </summary>
 class Tile
 {
 

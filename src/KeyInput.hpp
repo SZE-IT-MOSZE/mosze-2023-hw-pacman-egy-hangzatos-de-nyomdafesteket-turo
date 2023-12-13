@@ -79,7 +79,9 @@
 #define VK_SPACEBAR 0x20
 
 
-
+/// <summary>
+/// Class handling inputs
+/// </summary>
 class KeyInput
 {
 public:

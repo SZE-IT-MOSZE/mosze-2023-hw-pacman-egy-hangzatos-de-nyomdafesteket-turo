@@ -4,6 +4,9 @@
 #include "Map.hpp"
 #include "Engine.hpp"
 
+/// <summary>
+/// Base class for the items
+/// </summary>
 class GameItem: public ITriggerable
 {
 public:

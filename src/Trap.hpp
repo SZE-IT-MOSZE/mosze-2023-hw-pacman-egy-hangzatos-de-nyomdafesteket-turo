@@ -6,7 +6,9 @@ class Engine;
 #include "GameObject.hpp"
 #include "Engine.hpp"
 
-
+/// <summary>
+/// Base class for every trap
+/// </summary>
 class Trap : public GameObject
 {
 public:
